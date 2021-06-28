@@ -1,11 +1,12 @@
 const express = require("express");
 const https = require("https");
+const session = require("express-session");
 const parseData = require(__dirname + "/parseData.js");
 
 
 const NUM_POKEMON = 1118;
-let pokemonList = [];
-let statNames = ["HP", "Attack", "Defense", "Sp. Atk", "Sp. Def", "Speed"];
+// let pokemonList = [];
+const statNames = ["HP", "Attack", "Defense", "Sp. Atk", "Sp. Def", "Speed"];
 
 
 const app = express();
@@ -15,6 +16,11 @@ app.use(express.urlencoded({
 }));
 app.set("view engine", "ejs");
 app.use(express.static("public"));
+app.use(session({
+    secret: "hello",
+    resave: false,
+    saveUninitialized: false
+}));
 
 
 // We need the names of all pokemon for the pokemon selection dropdown
@@ -39,9 +45,11 @@ https.get(allPokemonURL, function (response) {
 
 
 app.get("/", function (req, res) {
+    req.session.pokemonList = [];
+
     res.render("index.ejs", {
         allPokemonNames: allPokemonNames,
-        pokemonList: pokemonList,
+        pokemonList: req.session.pokemonList,
         statNames: statNames
     });
 });
@@ -61,10 +69,10 @@ app.post("/", function (req, res) {
         });
 
         response.on("end", function () {
-            pokemonList.push(parseData.getPokemon(name, gender, form, JSON.parse(pokemonData)));
+            req.session.pokemonList.push(parseData.getPokemon(name, gender, form, JSON.parse(pokemonData)));
             res.render("index.ejs", {
                 allPokemonNames: allPokemonNames,
-                pokemonList: pokemonList,
+                pokemonList: req.session.pokemonList,
                 statNames: statNames
             });
         });
