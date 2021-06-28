@@ -1,0 +1,117 @@
+<%- include("header") -%>
+
+
+<section id="selection">
+  <div class="container-fluid">
+    <h1 class="selection-heading">Select a Pokémon!</h1>
+
+    <form action="/" method="post">
+      <div class="row">
+        <div class="col-lg-8">
+          <label for="pokemon-name" class="form-label selection-label">Pokémon</label>
+          <div class="input-group">
+            <select class="form-select" id="pokemon-name" name="name">
+              <option value="" disabled selected>Choose/Type a Pokémon...</option>
+              <% for (let i = 0; i < allPokemonNames.results.length; i++) { %>
+                <% let formattedName = allPokemonNames.results[i].name; %>
+                <% formattedName = formattedName[0].toUpperCase() + formattedName.slice(1, formattedName.length); %>
+                <% for (let j = 0; j < formattedName.length; j++) { %>
+                  <% if (formattedName[j] === "-") { %>
+                    <% formattedName = formattedName.slice(0, j + 1) + formattedName[j + 1].toUpperCase() + formattedName.slice(j + 2, formattedName.length); %>
+                  <% } %>
+                <% } %>
+                <option value="<%= allPokemonNames.results[i].name %>"><%= formattedName %></option>
+              <% } %>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <label for="pokemon-form" class="form-label selection-label">Form</label>
+          <select class="form-select" id="pokemon-form" name="form">
+            <option value="not-shiny">Not Shiny</option>
+            <option value="shiny">Shiny</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-dark selection-button">Add Pokémon</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<% if (pokemonList.length > 0) { %>
+<section id="team">
+  <div class="container-fluid">
+    <h1 class="team-heading">Your Team!</h1>
+
+    <% for (let i = 0; i < pokemonList.length; i++) { %>
+    <% let pokemon = pokemonList[i]; %>
+
+    <div class="card border-secondary mb-3">
+      <div class="card-header">
+        <h3 class="pokemon-heading"><%= pokemon.name %></h3>
+        <% for (let j = 0; j < pokemon.types.length; j++) { %>
+        <img class="type-icon" src="<%='images/types/' + pokemon.types[j] + '.webp' %>">
+        <% } %>
+      </div>
+      <div class="card-body">
+        <div class="row">
+
+          <div class="col-lg-3 text-center">
+            <img class="col-lg-3 pokemon-sprite" src=<%= pokemon.spriteURL %>>
+            <h5 class="metric-heading">Height</h5>
+            <p><%=pokemon.height %> cm</p>
+            <h5 class="metric-heading">Weight</h5>
+            <p><%=pokemon.weight %> kg</p>
+          </div>
+
+          <div class="col-lg-5">
+            <% for (let j = 0; j < statNames.length; j++) { %>
+            <p class="stat-name"><%= statNames[j] %></p>
+            <div class="<%= "stat-value-" + pokemon.stats[j] %>">
+              <div class="progress stat-bar">
+                <div class="progress-bar bg-dark"><%= pokemon.stats[j] %></div>
+              </div>
+            </div>
+            <% } %>
+          </div>
+
+          <div class="col-lg-3 third-column">
+            <h5 class="ability-heading">Abilities</h5>
+            <ul class="ability-list">
+              <% for (let j = 0; j < pokemon.abilities.length; j++) { %>
+              <li>
+                <a class="ability-link" href="<%= pokemon.abilities[j].url %>"
+                  target="_blank"><%= pokemon.abilities[j].ability %></a>
+              </li>
+              <% } %>
+            </ul>
+            <h5 class="natures-heading">Good Natures</h5>
+            <ul class="ability-list">
+              <% if (pokemon.abilities.length === 3) { %>
+              <li>Impish (+Defense, -Sp.Atk)</li>
+              <li>Adamant (+Attack, -Sp.Atk)</li>
+              <% } else { %>
+              <li>Impish (+Defense, -Sp.Atk)</li>
+              <li>Adamant (+Attack, -Sp.Atk)</li>
+              <li>Jolly (+Speed, -Sp.Atk)</li>
+              <% } %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% } %>
+  </div>
+</section>
+<% } %>
+
+<!-- jQuery and custom scripts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="scripts/setBarWidth.js"></script>
+</body>
+
+</html>

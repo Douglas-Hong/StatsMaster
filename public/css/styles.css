@@ -1,0 +1,87 @@
+.container-fluid {
+    padding: 0 18%;
+}
+
+.navbar-brand {
+    font-family: "Permanent Marker", sans-serif;
+    font-size: 2.5rem;
+}
+
+.selection-heading {
+    font-family: "Permanent Marker", sans-serif;
+    font-size: 3rem;
+    margin-top: 7%;
+    text-align: center;
+}
+
+.selection-label {
+    margin-top: 25px;
+}
+
+.selection-container {
+    padding: auto;
+}
+
+.selection-button {
+    margin: 25px;
+}
+
+.team-heading {
+    font-family: "Permanent Marker", sans-serif;
+    font-size: 3rem;
+    margin: 7% 0 25px;
+    text-align: center;
+}
+
+.pokemon-heading {
+    font-size: 1.5rem;
+    padding: 10px 10px 0 5px;
+    display: inline-block;
+}
+
+.type-icon {
+    padding-bottom: 10px;
+    transform: scale(0.85, 0.85);
+}
+
+.pokemon-sprite {
+    width: 125px;
+    height: 125px;
+    display: block;
+    margin: auto;
+}
+
+.metric-heading {
+    margin-top: 25px;
+}
+
+.stat-name {
+    margin-bottom: 0;
+    font-size: 0.8rem;
+}
+
+.stat-bar {
+    margin: 10px 0;
+}
+
+.third-column {
+    text-align: center;
+}
+
+.ability-heading {
+    margin-top: 25px;
+}
+
+.ability-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.ability-link {
+    text-decoration: none;
+}
+
+.natures-heading {
+    margin-top: 30px;
+    text-align: center;
+}
