@@ -43,12 +43,13 @@ https.get(allPokemonURL, function (response) {
 });
 
 
-function render(request, response, error) {
+function render(request, response, error, warning) {
     response.render("index.ejs", {
         allPokemonNames: allPokemonNames,
         pokemonList: request.session.pokemonList,
         statNames: statNames,
-        errorMessage: error
+        errorMessage: error,
+        warningMessage: warning
     });
 }
 
@@ -58,13 +59,28 @@ app.get("/", function (req, res) {
         req.session.pokemonList = [];
     }
 
-    render(req, res, "");
+    render(req, res, "", "");
+});
+
+
+app.get("/about", function (req, res) {
+    res.render("about.ejs");
+});
+
+
+app.get("/announcements", function (req, res) {
+    res.render("announcements.ejs");
+});
+
+
+app.get("/feedback", function (req, res) {
+    res.render("feedback.ejs");
 });
 
 
 app.post("/", function (req, res) {
     if (req.body.name === "") {
-        render(req, res, "You did not select a Pokémon yet!");
+        render(req, res, "You did not select a Pokémon yet!", "");
     } else {
         const name = req.body.name;
         const form = req.body.form;
@@ -72,9 +88,9 @@ app.post("/", function (req, res) {
 
         https.get(url, function (response) {
             if (response.statusCode === 404) {
-                render(req, res, "This Pokémon could not be retrieved because we searched for the data in the wrong place! Please report this in the feedback form!");
+                render(req, res, "This Pokémon could not be retrieved because we searched for the data in the wrong place! Please report this in the feedback form!", "");
             } else if (response.statusCode !== 200) {
-                render(req, res, "We currently cannot retrieve the data for this Pokémon. Please try again!");
+                render(req, res, "We currently cannot retrieve the data for this Pokémon. Please try again!", "");
             } else {
                 let pokemonData = "";
 
@@ -83,8 +99,14 @@ app.post("/", function (req, res) {
                 });
 
                 response.on("end", function () {
-                    req.session.pokemonList.push(parseData.getPokemon(name, form, JSON.parse(pokemonData)));
-                    render(req, res, "");
+                    pokemonData = JSON.parse(pokemonData);
+                    req.session.pokemonList.push(parseData.getPokemon(name, form, pokemonData));
+
+                    if (pokemonData.moves.length === 0) {
+                        render(req, res, "", "All Generation 8 Pokémon have a blank Notable Moves section because our data source currently does not provide any moves for these Pokémon. Hopefully this issue will be resolved soon!");
+                    } else {
+                        render(req, res, "", "");
+                    }
                 });
             }
         });

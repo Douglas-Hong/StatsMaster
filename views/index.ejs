@@ -1,4 +1,4 @@
-<%- include("header") -%>
+<%- include("partials/header") -%>
 
 
 <section id="selection">
@@ -8,6 +8,17 @@
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
           <div class="error-message">
             <strong>Error!</strong> <%= errorMessage %>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      </div>
+    <% } %>
+
+    <% if (warningMessage !== "") { %>
+      <div class="error-section">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <div class="error-message">
+            <strong>Warning!</strong> <%= warningMessage %>
           </div>
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
@@ -90,21 +101,21 @@
             <% } %>
           </div>
 
-          <div class="col-lg-3 third-column">
+          <div class="col-lg-3 text-center">
             <h5 class="ability-heading">Abilities</h5>
-            <ul class="ability-list">
+            <ul class="no-bullet-list">
               <% for (let j = 0; j < pokemon.abilities.length; j++) { %>
               <li>
-                <a class="ability-link" href="<%= pokemon.abilities[j].url %>"
+                <a class="link" href="<%= pokemon.abilities[j].url %>"
                   target="_blank"><%= pokemon.abilities[j].ability %></a>
               </li>
               <% } %>
             </ul>
             <h5 class="natures-heading">Notable Moves</h5>
-            <ul class="ability-list">
+            <ul class="no-bullet-list">
               <% for (let j = 0; j < pokemon.notableMoves.length; j++) { %>
                 <li>
-                  <a class="ability-link" href="<%= pokemon.notableMoves[j].url %>"
+                  <a class="link" href="<%= pokemon.notableMoves[j].url %>"
                     target="_blank"><%= pokemon.notableMoves[j].name %></a>
                 </li>
               <% } %>

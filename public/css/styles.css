@@ -72,24 +72,32 @@
     margin: 10px 0;
 }
 
-.third-column {
-    text-align: center;
-}
-
 .ability-heading {
     margin-top: 25px;
 }
 
-.ability-list {
+.no-bullet-list {
     list-style: none;
     padding-left: 0;
 }
 
-.ability-link {
+.link {
     text-decoration: none;
 }
 
 .natures-heading {
     margin-top: 30px;
     text-align: center;
+}
+
+.regular-heading {
+    font-family: "Permanent Marker", sans-serif;
+    font-size: 3rem;
+    text-align: center;
+    margin-top: 25px;
+}
+
+.text-section {
+    margin-top: 35px;
+    margin-bottom: 35px;
 }
