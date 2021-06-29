@@ -4,8 +4,7 @@ const session = require("express-session");
 const parseData = require(__dirname + "/parseData.js");
 
 
-const NUM_POKEMON = 1118;
-// let pokemonList = [];
+const numPokemon = 1118;
 const statNames = ["HP", "Attack", "Defense", "Sp. Atk", "Sp. Def", "Speed"];
 
 
@@ -24,7 +23,7 @@ app.use(session({
 
 
 // We need the names of all pokemon for the pokemon selection dropdown
-const allPokemonURL = "https://pokeapi.co/api/v2/pokemon?limit=" + NUM_POKEMON;
+const allPokemonURL = "https://pokeapi.co/api/v2/pokemon?limit=" + numPokemon;
 let allPokemonNames = "";
 https.get(allPokemonURL, function (response) {
     response.on("data", function (data) {
@@ -44,39 +43,52 @@ https.get(allPokemonURL, function (response) {
 });
 
 
-app.get("/", function (req, res) {
-    req.session.pokemonList = [];
-
-    res.render("index.ejs", {
+function render(request, response, error) {
+    response.render("index.ejs", {
         allPokemonNames: allPokemonNames,
-        pokemonList: req.session.pokemonList,
-        statNames: statNames
+        pokemonList: request.session.pokemonList,
+        statNames: statNames,
+        errorMessage: error
     });
+}
+
+
+app.get("/", function (req, res) {
+    if (!req.session.pokemonList) {
+        req.session.pokemonList = [];
+    }
+
+    render(req, res, "");
 });
 
 
 app.post("/", function (req, res) {
-    const name = req.body.name;
-    const gender = req.body.gender;
-    const form = req.body.form;
-    const url = "https://pokeapi.co/api/v2/pokemon/" + name.toLowerCase();
+    if (req.body.name === "") {
+        render(req, res, "You did not select a Pokémon yet!");
+    } else {
+        const name = req.body.name;
+        const form = req.body.form;
+        const url = "https://pokeapi.co/api/v2/pokemon/" + name.toLowerCase();
 
-    https.get(url, function (response) {
-        let pokemonData = "";
+        https.get(url, function (response) {
+            if (response.statusCode === 404) {
+                render(req, res, "This Pokémon could not be retrieved because we searched for the data in the wrong place! Please report this in the feedback form!");
+            } else if (response.statusCode !== 200) {
+                render(req, res, "We currently cannot retrieve the data for this Pokémon. Please try again!");
+            } else {
+                let pokemonData = "";
 
-        response.on("data", function (data) {
-            pokemonData += data;
+                response.on("data", function (data) {
+                    pokemonData += data;
+                });
+
+                response.on("end", function () {
+                    req.session.pokemonList.push(parseData.getPokemon(name, form, JSON.parse(pokemonData)));
+                    render(req, res, "");
+                });
+            }
         });
-
-        response.on("end", function () {
-            req.session.pokemonList.push(parseData.getPokemon(name, gender, form, JSON.parse(pokemonData)));
-            res.render("index.ejs", {
-                allPokemonNames: allPokemonNames,
-                pokemonList: req.session.pokemonList,
-                statNames: statNames
-            });
-        });
-    });
+    }
 });
 
 

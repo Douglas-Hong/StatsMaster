@@ -2,9 +2,8 @@ exports.getPokemon = getPokemon;
 
 
 class Pokemon {
-    constructor(name, gender, form, spriteURL, stats, types, abilities, height, weight) {
+    constructor(name, form, spriteURL, stats, types, abilities, height, weight, notableMoves) {
         this.name = name;
-        this.gender = gender;
         this.form = form;
         this.spriteURL = spriteURL;
         this.stats = stats;
@@ -12,6 +11,7 @@ class Pokemon {
         this.abilities = abilities;
         this.height = height;
         this.weight = weight;
+        this.notableMoves = notableMoves
     }
 }
 
@@ -24,7 +24,16 @@ class Ability {
 }
 
 
-function getPokemon(name, gender, form, pokemonData) {
+class Move {
+    constructor(name, moveLevel, url) {
+        this.name = name;
+        this.moveLevel = moveLevel;
+        this.url = url
+    }
+}
+
+
+function getPokemon(name, form, pokemonData) {
     name = parseName(name);
 
     let spriteURL = "";
@@ -50,10 +59,15 @@ function getPokemon(name, gender, form, pokemonData) {
         abilities.push(parseAbility(pokemonData.abilities[i].ability.name));
     }
 
+    let moves = [];
+    for (let i = 0; i < pokemonData.moves.length; i++) {
+        moves.push(parseMove(pokemonData.moves[i]));
+    }
+
     const height = Number(pokemonData.height) * 10; // decimeters to cm
     const weight = Number(pokemonData.weight) / 10; // hectograms to kg
 
-    return new Pokemon(name, gender, form, spriteURL, stats, types, abilities, height, weight);
+    return new Pokemon(name, form, spriteURL, stats, types, abilities, height, weight, getNotableMoves(moves, abilities.length));
 }
 
 
@@ -72,32 +86,64 @@ function parseName(name) {
         newName = "Galarian " + newName.slice(0, newName.length - 6);
     }
 
-    for (let i = 0; i < newName.length; i++) {
-        if (newName[i] === "-") {
-            newName = newName.slice(0, i + 1) + newName[i + 1].toUpperCase() + newName.slice(i + 2, newName.length);
+    return formatCapitalization(newName);
+}
+
+
+function formatCapitalization(text) {
+    let newText = text[0].toUpperCase() + text.slice(1, text.length).replace("-", " ");
+
+    for (let i = 0; i < newText.length; i++) {
+        if (newText[i] === " ") {
+            newText = newText.slice(0, i + 1) + newText[i + 1].toUpperCase() + newText.slice(i + 2, newText.length);
         }
     }
 
-    return newName;
+    return newText;
+}
+
+
+function formatForURL(url) {
+    let newURL = url;
+
+    for (let i = 0; i < newURL.length; i++) {
+        if (newURL[i] === "-") {
+            newURL = newURL.slice(0, i) + newURL.slice(i + 1, newURL.length);
+        }
+    }
+
+    return newURL;
 }
 
 
 function parseAbility(ability) {
-    let newAbility = ability[0].toUpperCase() + ability.slice(1, ability.length).replace("-", " ");
+    let abilityURL = "https://www.serebii.net/abilitydex/" + formatForURL(ability) + ".shtml";
+    return new Ability(formatCapitalization(ability), abilityURL);
+}
 
-    for (let i = 0; i < newAbility.length; i++) {
-        if (newAbility[i] === " ") {
-            newAbility = newAbility.slice(0, i + 1) + newAbility[i + 1].toUpperCase() + newAbility.slice(i + 2, newAbility.length);
+
+function parseMove(move) {
+    let moveLevel = Number(move.version_group_details[0].level_learned_at);
+    let moveURL = "https://www.serebii.net/attackdex-swsh/" + formatForURL(move.move.name) + ".shtml";
+    return new Move(formatCapitalization(move.move.name), moveLevel, moveURL);
+}
+
+
+function getNotableMoves(moves, numAbilities) {
+    // Sort from greatest move level to smallest move level
+    moves.sort(function (a, b) {
+        if (a.moveLevel > b.moveLevel) {
+            return -1;
+        } else {
+            return 1;
         }
+    });
+
+    // The abilities section is right above the notable moves section,
+    // so the more abilities the pokemon has, the less notable moves we should show
+    if (numAbilities >= 3) {
+        return moves.slice(0, 4);
+    } else {
+        return moves.slice(0, 5);
     }
-
-    let abilityURL = "https://www.serebii.net/abilitydex/" + ability + ".shtml";
-
-    for (let i = 0; i < abilityURL.length; i++) {
-        if (abilityURL[i] === "-") {
-            abilityURL = abilityURL.slice(0, i) + abilityURL.slice(i + 1, abilityURL.length);
-        }
-    }
-
-    return new Ability(newAbility, abilityURL);
 }

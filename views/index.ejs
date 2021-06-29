@@ -3,6 +3,17 @@
 
 <section id="selection">
   <div class="container-fluid">
+    <% if (errorMessage !== "") { %>
+      <div class="error-section">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <div class="error-message">
+            <strong>Error!</strong> <%= errorMessage %>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      </div>
+    <% } %>
+
     <h1 class="selection-heading">Select a Pokémon!</h1>
 
     <form action="/" method="post">
@@ -11,7 +22,7 @@
           <label for="pokemon-name" class="form-label selection-label">Pokémon</label>
           <div class="input-group">
             <select class="form-select" id="pokemon-name" name="name">
-              <option value="" disabled selected>Choose/Type a Pokémon...</option>
+              <option value="" hidden>Choose/Type a Pokémon...</option>
               <% for (let i = 0; i < allPokemonNames.results.length; i++) { %>
                 <% let formattedName = allPokemonNames.results[i].name; %>
                 <% formattedName = formattedName[0].toUpperCase() + formattedName.slice(1, formattedName.length); %>
@@ -89,15 +100,13 @@
               </li>
               <% } %>
             </ul>
-            <h5 class="natures-heading">Good Natures</h5>
+            <h5 class="natures-heading">Notable Moves</h5>
             <ul class="ability-list">
-              <% if (pokemon.abilities.length === 3) { %>
-              <li>Impish (+Defense, -Sp.Atk)</li>
-              <li>Adamant (+Attack, -Sp.Atk)</li>
-              <% } else { %>
-              <li>Impish (+Defense, -Sp.Atk)</li>
-              <li>Adamant (+Attack, -Sp.Atk)</li>
-              <li>Jolly (+Speed, -Sp.Atk)</li>
+              <% for (let j = 0; j < pokemon.notableMoves.length; j++) { %>
+                <li>
+                  <a class="ability-link" href="<%= pokemon.notableMoves[j].url %>"
+                    target="_blank"><%= pokemon.notableMoves[j].name %></a>
+                </li>
               <% } %>
             </ul>
           </div>
@@ -112,6 +121,7 @@
 <!-- jQuery and custom scripts -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="scripts/setBarWidth.js"></script>
+
 </body>
 
 </html>

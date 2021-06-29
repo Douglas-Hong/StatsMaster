@@ -2,6 +2,14 @@
     padding: 0 18%;
 }
 
+.error-section {
+    margin-top: 50px;
+}
+
+.error-message {
+    font-size: 1.25rem;
+}
+
 .navbar-brand {
     font-family: "Permanent Marker", sans-serif;
     font-size: 2.5rem;
