@@ -86,15 +86,15 @@ function parseName(name) {
         newName = "Galarian " + newName.slice(0, newName.length - 6);
     }
 
-    return formatCapitalization(newName);
+    return formatCapitalization(newName, "-");
 }
 
 
-function formatCapitalization(text) {
-    let newText = text[0].toUpperCase() + text.slice(1, text.length).replace("-", " ");
+function formatCapitalization(text, delimiter) {
+    let newText = text;
 
     for (let i = 0; i < newText.length; i++) {
-        if (newText[i] === " ") {
+        if (newText[i] === delimiter) {
             newText = newText.slice(0, i + 1) + newText[i + 1].toUpperCase() + newText.slice(i + 2, newText.length);
         }
     }
@@ -117,15 +117,17 @@ function formatForURL(url) {
 
 
 function parseAbility(ability) {
+    let newAbility = ability[0].toUpperCase() + ability.slice(1, ability.length).replace("-", " "); 
     let abilityURL = "https://www.serebii.net/abilitydex/" + formatForURL(ability) + ".shtml";
-    return new Ability(formatCapitalization(ability), abilityURL);
+    return new Ability(formatCapitalization(newAbility, " "), abilityURL);
 }
 
 
 function parseMove(move) {
+    let moveName = move.move.name[0].toUpperCase() + move.move.name.slice(1, move.move.name.length).replace("-", " "); 
     let moveLevel = Number(move.version_group_details[0].level_learned_at);
     let moveURL = "https://www.serebii.net/attackdex-swsh/" + formatForURL(move.move.name) + ".shtml";
-    return new Move(formatCapitalization(move.move.name), moveLevel, moveURL);
+    return new Move(formatCapitalization(moveName, " "), moveLevel, moveURL);
 }
 
 
