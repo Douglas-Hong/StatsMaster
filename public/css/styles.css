@@ -2,17 +2,17 @@
     padding: 0 18%;
 }
 
+.title {
+    font-family: "Permanent Marker", sans-serif;
+    font-size: 2.5rem;
+}
+
 .error-section {
     margin-top: 50px;
 }
 
 .error-message {
     font-size: 1.25rem;
-}
-
-.navbar-brand {
-    font-family: "Permanent Marker", sans-serif;
-    font-size: 2.5rem;
 }
 
 .selection-heading {
@@ -24,10 +24,6 @@
 
 .selection-label {
     margin-top: 25px;
-}
-
-.selection-container {
-    padding: auto;
 }
 
 .selection-button {
@@ -42,9 +38,9 @@
 }
 
 .pokemon-heading {
+    display: inline-block;
     font-size: 1.5rem;
     padding: 10px 10px 0 5px;
-    display: inline-block;
 }
 
 .type-icon {
@@ -53,27 +49,27 @@
 }
 
 .pokemon-sprite {
-    width: 125px;
-    height: 125px;
     display: block;
+    height: 125px;
     margin: auto;
+    width: 125px;
 }
 
-.metric-heading {
+.measurement-heading {
     margin-top: 25px;
 }
 
 .stat-name {
-    margin-bottom: 0;
     font-size: 0.8rem;
+    margin-bottom: 0;
 }
 
 .stat-bar {
     margin: 10px 0;
 }
 
-.ability-heading {
-    margin-top: 25px;
+.third-column-heading {
+    margin-top: 30px;
 }
 
 .no-bullet-list {
@@ -85,11 +81,6 @@
     text-decoration: none;
 }
 
-.natures-heading {
-    margin-top: 30px;
-    text-align: center;
-}
-
 .regular-heading {
     font-family: "Permanent Marker", sans-serif;
     font-size: 3rem;
@@ -99,5 +90,5 @@
 
 .text-section {
     margin-top: 35px;
-    margin-bottom: 35px;
+    margin-bottom: 60px;
 }

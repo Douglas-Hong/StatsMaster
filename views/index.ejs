@@ -1,138 +1,118 @@
-<%- include("partials/header") -%>
+  <%- include("partials/header") -%>
 
-
-<section id="selection">
-  <div class="container-fluid">
-    <% if (errorMessage !== "") { %>
-      <div class="error-section">
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-          <div class="error-message">
-            <strong>Error!</strong> <%= errorMessage %>
+  <section id="selection">
+    <div class="container-fluid">
+      <% if (errorMessage !== "") { %>
+        <div class="error-section">
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <div class="error-message">
+              <strong>Error!</strong> <%= errorMessage %>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-      </div>
-    <% } %>
-
-    <% if (warningMessage !== "") { %>
-      <div class="error-section">
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-          <div class="error-message">
-            <strong>Warning!</strong> <%= warningMessage %>
+      <% } %>
+      <% if (warningMessage !== "") { %>
+        <div class="error-section">
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <div class="error-message">
+              <strong>Warning!</strong> <%= warningMessage %>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-      </div>
-    <% } %>
-
-    <h1 class="selection-heading">Select a Pokémon!</h1>
-
-    <form action="/" method="post">
-      <div class="row">
-        <div class="col-lg-8">
-          <label for="pokemon-name" class="form-label selection-label">Pokémon</label>
-          <div class="input-group">
-            <select class="form-select" id="pokemon-name" name="name">
-              <option value="" hidden>Choose/Type a Pokémon...</option>
-              <% for (let i = 0; i < allPokemonNames.results.length; i++) { %>
-                <% let formattedName = allPokemonNames.results[i].name; %>
-                <% formattedName = formattedName[0].toUpperCase() + formattedName.slice(1, formattedName.length); %>
-                <% for (let j = 0; j < formattedName.length; j++) { %>
-                  <% if (formattedName[j] === "-") { %>
-                    <% formattedName = formattedName.slice(0, j + 1) + formattedName[j + 1].toUpperCase() + formattedName.slice(j + 2, formattedName.length); %>
-                  <% } %>
-                <% } %>
-                <option value="<%= allPokemonNames.results[i].name %>"><%= formattedName %></option>
-              <% } %>
+      <% } %>
+      <h1 class="selection-heading">Select a Pokémon!</h1>
+      <form action="/" method="post">
+        <div class="row">
+          <div class="col-lg-8">
+            <label for="pokemon-name" class="form-label selection-label">Pokémon</label>
+            <div class="input-group">
+              <select class="form-select" id="pokemon-name" name="name">
+                <option value="" hidden>Choose/Type a Pokémon...</option>
+                <%- include("partials/allPokemon") -%>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <label for="pokemon-form" class="form-label selection-label">Form</label>
+            <select class="form-select" id="pokemon-form" name="form">
+              <option value="not-shiny">Not Shiny</option>
+              <option value="shiny">Shiny</option>
             </select>
           </div>
         </div>
-
-        <div class="col-lg-4">
-          <label for="pokemon-form" class="form-label selection-label">Form</label>
-          <select class="form-select" id="pokemon-form" name="form">
-            <option value="not-shiny">Not Shiny</option>
-            <option value="shiny">Shiny</option>
-          </select>
+        <div class="text-center">
+          <button type="submit" class="btn btn-dark selection-button">Add Pokémon</button>
         </div>
-      </div>
+      </form>
+    </div>
+  </section>
 
-      <div class="text-center">
-        <button type="submit" class="btn btn-dark selection-button">Add Pokémon</button>
-      </div>
-    </form>
-  </div>
-</section>
-
-<% if (pokemonList.length > 0) { %>
-<section id="team">
-  <div class="container-fluid">
-    <h1 class="team-heading">Your Team!</h1>
-
-    <% for (let i = 0; i < pokemonList.length; i++) { %>
-    <% let pokemon = pokemonList[i]; %>
-
-    <div class="card border-secondary mb-3">
-      <div class="card-header">
-        <h3 class="pokemon-heading"><%= pokemon.name %></h3>
-        <% for (let j = 0; j < pokemon.types.length; j++) { %>
-        <img class="type-icon" src="<%='images/types/' + pokemon.types[j] + '.webp' %>">
-        <% } %>
-      </div>
-      <div class="card-body">
-        <div class="row">
-
-          <div class="col-lg-3 text-center">
-            <img class="col-lg-3 pokemon-sprite" src=<%= pokemon.spriteURL %>>
-            <h5 class="metric-heading">Height</h5>
-            <p><%=pokemon.height %> cm</p>
-            <h5 class="metric-heading">Weight</h5>
-            <p><%=pokemon.weight %> kg</p>
-          </div>
-
-          <div class="col-lg-5">
-            <% for (let j = 0; j < statNames.length; j++) { %>
-            <p class="stat-name"><%= statNames[j] %></p>
-            <div class="<%= "stat-value-" + pokemon.stats[j] %>">
-              <div class="progress stat-bar">
-                <div class="progress-bar bg-dark"><%= pokemon.stats[j] %></div>
+  <% if (pokemonList.length > 0) { %>
+    <section id="team">
+      <div class="container-fluid">
+        <h1 class="team-heading">Your Team!</h1>
+        <% for (let i = 0; i < pokemonList.length; i++) { %>
+          <% let pokemon = pokemonList[i]; %>
+          <div class="card border-secondary mb-3">
+            <div class="card-header">
+              <h3 class="pokemon-heading"><%= pokemon.name %></h3>
+              <% for (let j = 0; j < pokemon.types.length; j++) { %>
+                <img class="type-icon" src="<%='images/types/' + pokemon.types[j] + '.webp' %>">
+              <% } %>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-3 text-center">
+                  <img class="col-lg-3 pokemon-sprite" src="<%= pokemon.spriteURL %>">
+                  <h5 class="measurement-heading">Height</h5>
+                  <p><%=pokemon.height %></p>
+                  <h5 class="measurement-heading">Weight</h5>
+                  <p><%=pokemon.weight %> lbs</p>
+                </div>
+                <div class="col-lg-5">
+                  <% for (let j = 0; j < statNames.length; j++) { %>
+                    <p class="stat-name"><%= statNames[j] %></p>
+                    <div class="<%= "stat-value-" + pokemon.stats[j] %>">
+                      <div class="progress stat-bar">
+                        <div class="progress-bar bg-dark"><%= pokemon.stats[j] %></div>
+                      </div>
+                    </div>
+                  <% } %>
+                </div>
+                <div class="col-lg-3 text-center">
+                  <h5 class="third-column-heading">Abilities</h5>
+                  <ul class="no-bullet-list">
+                    <% for (let j = 0; j < pokemon.abilities.length; j++) { %>
+                      <li>
+                        <a class="link" href="<%= pokemon.abilities[j].url %>"
+                          target="_blank"><%= pokemon.abilities[j].ability %></a>
+                      </li>
+                    <% } %>
+                  </ul>
+                  <h5 class="third-column-heading">Notable Moves</h5>
+                  <ul class="no-bullet-list">
+                    <% for (let j = 0; j < pokemon.notableMoves.length; j++) { %>
+                      <li>
+                        <a class="link" href="<%= pokemon.notableMoves[j].url %>"
+                          target="_blank"><%= pokemon.notableMoves[j].name %></a>
+                      </li>
+                    <% } %>
+                  </ul>
+                </div>
               </div>
             </div>
-            <% } %>
           </div>
-
-          <div class="col-lg-3 text-center">
-            <h5 class="ability-heading">Abilities</h5>
-            <ul class="no-bullet-list">
-              <% for (let j = 0; j < pokemon.abilities.length; j++) { %>
-              <li>
-                <a class="link" href="<%= pokemon.abilities[j].url %>"
-                  target="_blank"><%= pokemon.abilities[j].ability %></a>
-              </li>
-              <% } %>
-            </ul>
-            <h5 class="natures-heading">Notable Moves</h5>
-            <ul class="no-bullet-list">
-              <% for (let j = 0; j < pokemon.notableMoves.length; j++) { %>
-                <li>
-                  <a class="link" href="<%= pokemon.notableMoves[j].url %>"
-                    target="_blank"><%= pokemon.notableMoves[j].name %></a>
-                </li>
-              <% } %>
-            </ul>
-          </div>
-        </div>
+        <% } %>
       </div>
-    </div>
-    <% } %>
-  </div>
-</section>
-<% } %>
-
-<!-- jQuery and custom scripts -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="scripts/setBarWidth.js"></script>
-
+    </section>
+  <% } %>
+  <!-- jQuery, Bootstrap Bundle with Popper, and custom scripts -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
+  </script>
+  <script src="scripts/setBarWidth.js"></script>
 </body>
-
 </html>

@@ -1,27 +1,85 @@
 <%- include("partials/header") -%>
 
-<div class="container-fluid">
-  <h3 class="regular-heading">About This Website</h3>
-  <div class="text-section">
-    <h5>What was used to create this website?</h5>
-    <hr>
-    <ul>
-      <li>HTML</li>
-      <li>CSS</li>
-      <li>Bootstrap</li>
-      <li>Javascript</li>
-      <li>Node.js</li>
-      <li>Express.js</li>
-      <li>EJS</li>
-      <li>A little bit of jQuery</li>
-    </ul>
-  </div>
+  <div class="container-fluid">
+    <h3 class="regular-heading">About This Website</h3>
+    <div class="text-section">
+      <h5>Features</h5>
+      <hr>
+      <ul>
+        <li>Choose any Pokémon (including special forms) from generations 1-8</li>
+        <li>Select shiny and non-shiny Pokémon</li>
+        <li>View the stats of multiple Pokémon at once</li>
+        <li>View the in-game base stats (HP, Attack, Defense, Sp. Atk, Sp. Def, and Speed) of all Pokémon</li>
+        <li>View the height/weight of all Pokémon</li>
+        <li>View the abilities of all Pokémon</li>
+        <li>View a few of the most notable moves of each Pokémon</li>
+      </ul>
+    </div>
 
-  <div class="text-section">
-    <h5>How did you collect data on every single Pokémon?</h5>
-    <hr>
-    <p>I used PokéAPI, a very popular API. Feel free to explore the <a class="link" target="_blank"
-        href="https://pokeapi.co/docs/v2">documentation</a>; I found the "Pokemon" endpoint to be to the most useful
-      when collecting a lot of information about a single Pokémon.</p>
+    <div class="text-section">
+      <h5>How do I use this website?</h5>
+      <hr>
+      <p>First, choose a Pokémon by selecting one from the dropdown menu. You can also type the Pokémon's name;
+        once you specify enough letters in the name, the name should automatically appear in the dropdown menu.</p>
+      <p>Then, once you specify the Pokémon's name, you can decide if you want the Pokémon to appear shiny or not shiny.
+        Note that the only difference between shiny and non-shiny Pokémon is that the Pokémon will have a different
+        appearance.
+        Plus, note that this choice is completely optional; if you do not choose anything, the default appearance is not
+        shiny.</p>
+      <p>When you are ready, press the "Add Pokémon" button. Your Pokémon's stats should now appear!</p>
+      <p>You can view the stats of multiple Pokémon at once, so you can repeat this process as many times you want.</p>
+    </div>
+
+    <div class="text-section">
+      <h5>What are base stats?</h5>
+      <hr>
+      <p>Base stats are once of the most important indicators of a Pokémon's competitive strength. There are six base
+        stats for each Pokémon:
+        HP (hit points), Attack, Defense, Sp. Atk (Special Attack), Sp. Def (Special Defense), and Speed. Each of these
+        base stats is a number from 1 to 255; the higher the number, the more powerful the Pokémon is in terms
+        of that base stat.</p>
+      <p>Note that legendary Pokémon tend to have very high base stats. Additionally, Pokémon that belong
+        to the beginning or middle of their evolution line tend to have low base stats.</p>
+    </div>
+
+    <div class="text-section">
+      <h5>How do I know if a Pokémon's base stats are good?</h5>
+      <hr>
+      <p>In terms of competitive Pokémon, most Pokémon in the metagame will have one or two base stats that are greater
+        than 100-110.
+        However, although base stats are extremely important, Pokémon can still be competitively viable even if their base
+        stats are mediocre.
+        For example, although Clefable's base stats do not look spectacular, it is still powerful because of its
+        exceptional type,
+        abilities, and movepool.</p>
+      <p>If you have no interest in playing competitive Pokémon (e.g., Smogon and VGC), I think it is important that you
+        play with your favorite Pokémon rather than Pokémon with high base stats.</p>
+    </div>
+
+    <div class="text-section">
+      <h5>What if I do not know what an ability/move does?</h5>
+      <hr>
+      <p>To get more information about a particular ability or move, all you have to do is click on the name of the ability/move.
+        You will be directed to a webpage from Serebii (a popular Pokémon database) that will describe the ability/move.</p>
+    </div>
+
+    <div class="text-section">
+      <h5>What counts as a "notable move"?</h5>
+      <hr>
+      <p>The most notable moves are the ones that the Pokémon learns the latest. For example, since the last two moves
+        Infernape learns are
+        Flare Blitz and Calm Mind, the first two moves in Infernape's Notable Moves section are Flare Blitz and Calm Mind.
+        Note that this
+        algorithm may change later.</p>
+    </div>
+
+    <div class="text-section">
+      <h5>How did you collect data on every single Pokémon?</h5>
+      <hr>
+      <p>I used PokéAPI, a very popular API. Feel free to explore the <a class="link" target="_blank"
+          href="https://pokeapi.co/docs/v2">documentation</a>; I found the "Pokemon" endpoint to be to the most useful
+        when collecting a lot of information about a single Pokémon.</p>
+    </div>
   </div>
-</div>
+</body>
+</html>

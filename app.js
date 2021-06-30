@@ -4,7 +4,6 @@ const session = require("express-session");
 const parseData = require(__dirname + "/parseData.js");
 
 
-const numPokemon = 1118;
 const statNames = ["HP", "Attack", "Defense", "Sp. Atk", "Sp. Def", "Speed"];
 
 
@@ -15,6 +14,7 @@ app.use(express.urlencoded({
 }));
 app.set("view engine", "ejs");
 app.use(express.static("public"));
+// Allows us to give users different session IDs so that their teams are different
 app.use(session({
     secret: "hello",
     resave: false,
@@ -22,30 +22,10 @@ app.use(session({
 }));
 
 
-// We need the names of all pokemon for the pokemon selection dropdown
-const allPokemonURL = "https://pokeapi.co/api/v2/pokemon?limit=" + numPokemon;
-let allPokemonNames = "";
-https.get(allPokemonURL, function (response) {
-    response.on("data", function (data) {
-        allPokemonNames += data;
-    });
-
-    response.on("end", function () {
-        allPokemonNames = JSON.parse(allPokemonNames);
-        allPokemonNames.results.sort(function (a, b) {
-            if (a.name < b.name) {
-                return -1;
-            } else {
-                return 1;
-            }
-        });
-    });
-});
-
-
+// This function renders index.ejs with the appropriate data (pokemonList, statNames, 
+// errorMessage, warningMessage)
 function render(request, response, error, warning) {
     response.render("index.ejs", {
-        allPokemonNames: allPokemonNames,
         pokemonList: request.session.pokemonList,
         statNames: statNames,
         errorMessage: error,
@@ -55,6 +35,8 @@ function render(request, response, error, warning) {
 
 
 app.get("/", function (req, res) {
+    // If a user has already opened the website, opening the website on a new tab with
+    // the same session ID should not reset their team
     if (!req.session.pokemonList) {
         req.session.pokemonList = [];
     }
@@ -78,38 +60,48 @@ app.get("/feedback", function (req, res) {
 });
 
 
+// This function makes a GET request to the API and receives an HTTP response;
+// this function then renders a new page based on this response
+function handleHTTPResponse(req, res) {
+    const name = req.body.name;
+    const form = req.body.form;
+    const url = "https://pokeapi.co/api/v2/pokemon/" + name;
+
+    https.get(url, function (response) {
+        if (response.statusCode === 404) {
+            render(req, res, "This Pokémon could not be retrieved because we searched" +
+                "for the data in the wrong place! Please report this in the feedback form!", "");
+        } else if (response.statusCode !== 200) {
+            render(req, res, "We currently cannot retrieve the data for this Pokémon. Please try again!", "");
+        } else {
+            let pokemonData = "";
+
+            response.on("data", function (data) {
+                pokemonData += data;
+            });
+
+            response.on("end", function () {
+                pokemonData = JSON.parse(pokemonData);
+                req.session.pokemonList.push(parseData.getPokemon(name, form, pokemonData));
+
+                if (pokemonData.moves.length === 0) {
+                    render(req, res, "", "All Generation 8 Pokémon have a blank Notable Moves " +
+                        "section because our data source currently does not provide any moves for " +
+                        "these Pokémon. Hopefully this issue will be resolved soon!");
+                } else {
+                    render(req, res, "", "");
+                }
+            });
+        }
+    });
+}
+
+
 app.post("/", function (req, res) {
     if (req.body.name === "") {
         render(req, res, "You did not select a Pokémon yet!", "");
     } else {
-        const name = req.body.name;
-        const form = req.body.form;
-        const url = "https://pokeapi.co/api/v2/pokemon/" + name.toLowerCase();
-
-        https.get(url, function (response) {
-            if (response.statusCode === 404) {
-                render(req, res, "This Pokémon could not be retrieved because we searched for the data in the wrong place! Please report this in the feedback form!", "");
-            } else if (response.statusCode !== 200) {
-                render(req, res, "We currently cannot retrieve the data for this Pokémon. Please try again!", "");
-            } else {
-                let pokemonData = "";
-
-                response.on("data", function (data) {
-                    pokemonData += data;
-                });
-
-                response.on("end", function () {
-                    pokemonData = JSON.parse(pokemonData);
-                    req.session.pokemonList.push(parseData.getPokemon(name, form, pokemonData));
-
-                    if (pokemonData.moves.length === 0) {
-                        render(req, res, "", "All Generation 8 Pokémon have a blank Notable Moves section because our data source currently does not provide any moves for these Pokémon. Hopefully this issue will be resolved soon!");
-                    } else {
-                        render(req, res, "", "");
-                    }
-                });
-            }
-        });
+        handleHTTPResponse(req, res);
     }
 });
 

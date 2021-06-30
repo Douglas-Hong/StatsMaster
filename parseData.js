@@ -33,8 +33,11 @@ class Move {
 }
 
 
+// Given the name, form (shint/not shiny), and parsed JSON data for a specific
+// Pokémon, this function returns a Pokémon object that contains various
+// amounts of interesting data
 function getPokemon(name, form, pokemonData) {
-    name = parseName(name);
+    name = formatName(name);
 
     let spriteURL = "";
     if (form === "not-shiny") {
@@ -46,7 +49,7 @@ function getPokemon(name, form, pokemonData) {
 
     let stats = [];
     for (let i = 0; i < pokemonData.stats.length; i++) {
-        stats.push(Number(pokemonData.stats[i].base_stat));
+        stats.push(pokemonData.stats[i].base_stat);
     }
 
     let types = [];
@@ -56,22 +59,29 @@ function getPokemon(name, form, pokemonData) {
 
     let abilities = [];
     for (let i = 0; i < pokemonData.abilities.length; i++) {
-        abilities.push(parseAbility(pokemonData.abilities[i].ability.name));
+        abilities.push(getAbility(pokemonData.abilities[i].ability.name));
     }
+
+    const heightInches = pokemonData.height * 3.937; // decimeters to in
+    const height = Math.floor(heightInches / 12) + "'" + Math.floor(heightInches -
+        (Math.floor(heightInches / 12) * 12)) + "''"; // in to ft
+    const weight = (pokemonData.weight / 4.536).toFixed(1); // hectograms to lbs
 
     let moves = [];
     for (let i = 0; i < pokemonData.moves.length; i++) {
-        moves.push(parseMove(pokemonData.moves[i]));
+        moves.push(getMove(pokemonData.moves[i]));
     }
 
-    const height = Number(pokemonData.height) * 10; // decimeters to cm
-    const weight = Number(pokemonData.weight) / 10; // hectograms to kg
-
-    return new Pokemon(name, form, spriteURL, stats, types, abilities, height, weight, getNotableMoves(moves, abilities.length));
+    return new Pokemon(name, form, spriteURL, stats, types, abilities, height,
+        weight, getNotableMoves(moves, abilities.length));
 }
 
 
-function parseName(name) {
+// This function fixes the capitalization of the Pokémon's name (i.e., 
+// every word will have its first letter capitalized); if the Pokémon is
+// a Mega Evolution, Mega Evolution-X, Mega-Evolution-Y, Alolan, or Galarian,
+// the name will be slightly different
+function formatName(name) {
     let newName = name[0].toUpperCase() + name.slice(1, name.length);
 
     if (newName.endsWith("-mega")) {
@@ -90,12 +100,16 @@ function parseName(name) {
 }
 
 
+// This function fixes the capitalization of the given piece of text; if 
+// the delimiter (a single character that denotes the end of one word) is seen, 
+// then the next character will be capitalized
 function formatCapitalization(text, delimiter) {
     let newText = text;
 
     for (let i = 0; i < newText.length; i++) {
         if (newText[i] === delimiter) {
-            newText = newText.slice(0, i + 1) + newText[i + 1].toUpperCase() + newText.slice(i + 2, newText.length);
+            newText = newText.slice(0, i + 1) + newText[i + 1].toUpperCase() +
+                newText.slice(i + 2, newText.length);
         }
     }
 
@@ -103,34 +117,42 @@ function formatCapitalization(text, delimiter) {
 }
 
 
-function formatForURL(url) {
-    let newURL = url;
+// This function formats the given piece of text so that it can be inserted
+// into a valid Serebii URL; to this, we have to convert all the characters to lowercase,
+// and all dashes will be replaced with deleted
+function formatForURL(text) {
+    let newText = text;
 
-    for (let i = 0; i < newURL.length; i++) {
-        if (newURL[i] === "-") {
-            newURL = newURL.slice(0, i) + newURL.slice(i + 1, newURL.length);
+    for (let i = 0; i < newText.length; i++) {
+        if (newText[i] === "-") {
+            newText = newText.slice(0, i) + newText.slice(i + 1, newText.length);
         }
     }
 
-    return newURL;
+    return newText;
 }
 
 
-function parseAbility(ability) {
-    let newAbility = ability[0].toUpperCase() + ability.slice(1, ability.length).replace("-", " "); 
+// This function returns a new Ability object with a formatted name and valid URL
+function getAbility(ability) {
+    let newAbility = ability[0].toUpperCase() + ability.slice(1, ability.length).replace("-", " ");
     let abilityURL = "https://www.serebii.net/abilitydex/" + formatForURL(ability) + ".shtml";
     return new Ability(formatCapitalization(newAbility, " "), abilityURL);
 }
 
 
-function parseMove(move) {
-    let moveName = move.move.name[0].toUpperCase() + move.move.name.slice(1, move.move.name.length).replace("-", " "); 
-    let moveLevel = Number(move.version_group_details[0].level_learned_at);
+// This function returns a new Move object with a formatted name, move level, and valid URL
+function getMove(move) {
+    let moveName = move.move.name[0].toUpperCase() + move.move.name.slice(1, move.move.name.length).replace("-", " ");
+    let moveLevel = move.version_group_details[0].level_learned_at;
     let moveURL = "https://www.serebii.net/attackdex-swsh/" + formatForURL(move.move.name) + ".shtml";
     return new Move(formatCapitalization(moveName, " "), moveLevel, moveURL);
 }
 
 
+// This function returns an array of the most notable moves, given an array of Move objects.
+// The algorithm is based on the move level of each Move object; the higher the move level,
+// the more notable the move is
 function getNotableMoves(moves, numAbilities) {
     // Sort from greatest move level to smallest move level
     moves.sort(function (a, b) {
