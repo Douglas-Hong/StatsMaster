@@ -2,6 +2,12 @@
     padding: 0 18%;
 }
 
+@media (max-width: 1200px) {
+    .container-fluid {
+      padding: 0 8%;
+    }
+}
+
 .title {
     font-family: "Permanent Marker", sans-serif;
     font-size: 2.5rem;
@@ -55,8 +61,12 @@
     width: 125px;
 }
 
+.measurement-section {
+    margin-bottom: 10px;
+}
+
 .measurement-heading {
-    margin-top: 25px;
+    margin-top: 10px;
 }
 
 .stat-name {
@@ -72,6 +82,17 @@
     margin-top: 30px;
 }
 
+/* The min-width and max-width of a Bootstrap md column are 768px and 992px, respectively */
+@media (min-width: 768px) and (max-width: 992px) {
+    .measurement-heading {
+        margin-top: 30px;
+    }
+
+    .third-column-heading {
+        margin-top: 40px;
+    }
+}
+
 .no-bullet-list {
     list-style: none;
     padding-left: 0;
@@ -84,11 +105,11 @@
 .regular-heading {
     font-family: "Permanent Marker", sans-serif;
     font-size: 3rem;
-    text-align: center;
     margin-top: 25px;
+    text-align: center;
 }
 
 .text-section {
-    margin-top: 35px;
     margin-bottom: 60px;
+    margin-top: 35px;
 }

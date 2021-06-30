@@ -64,14 +64,25 @@
             </div>
             <div class="card-body">
               <div class="row">
-                <div class="col-lg-3 text-center">
-                  <img class="col-lg-3 pokemon-sprite" src="<%= pokemon.spriteURL %>">
-                  <h5 class="measurement-heading">Height</h5>
-                  <p><%=pokemon.height %></p>
-                  <h5 class="measurement-heading">Weight</h5>
-                  <p><%=pokemon.weight %> lbs</p>
+                <div class="col-lg-3">
+                  <div class="row text-center">
+                    <div class="col-0 col-sm-0 col-md-2 col-lg-0"></div>
+                    <div class="col-12 col-md-2 col-lg-12">
+                      <img class="pokemon-sprite" src="<%= pokemon.spriteURL %>">
+                    </div>
+                    <div class="col-0 col-sm-2 col-md-1 col-lg-0"></div>
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-12 measurement-section">
+                      <h5 class="measurement-heading">Height</h5>
+                      <p><%=pokemon.height %></p>
+                    </div>
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-12 measurement-section">
+                      <h5 class="measurement-heading">Weight</h5>
+                      <p><%=pokemon.weight %> lbs</p>
+                    </div>
+                    <div class="col-0 col-sm-2 col-md-1 col-lg-0"></div>
+                  </div>
                 </div>
-                <div class="col-lg-5">
+                <div class="col-lg-5 col-md-8">
                   <% for (let j = 0; j < statNames.length; j++) { %>
                     <p class="stat-name"><%= statNames[j] %></p>
                     <div class="<%= "stat-value-" + pokemon.stats[j] %>">
@@ -81,7 +92,7 @@
                     </div>
                   <% } %>
                 </div>
-                <div class="col-lg-3 text-center">
+                <div class="col-lg-3 col-md-4 text-center">
                   <h5 class="third-column-heading">Abilities</h5>
                   <ul class="no-bullet-list">
                     <% for (let j = 0; j < pokemon.abilities.length; j++) { %>

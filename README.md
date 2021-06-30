@@ -2,6 +2,8 @@
 
 Quickly view the stats (base stats, height, weight, abilities, notable moves) of any Pokémon!
 
+You can view the website at https://stats-master.herokuapp.com/
+
 ## Features
 
 * Choose any Pokémon (including special forms) from generations 1-8
@@ -34,4 +36,4 @@ Quickly view the stats (base stats, height, weight, abilities, notable moves) of
 
 <p align="center">Team Section</p>
 
-![Team](https://i.imgur.com/TEpJUUw.jpg)
+![Team Section](https://i.imgur.com/TEpJUUw.jpg)
