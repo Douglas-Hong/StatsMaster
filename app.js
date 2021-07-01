@@ -98,9 +98,17 @@ function handleHTTPResponse(req, res) {
 
 
 app.post("/", function (req, res) {
-    if (req.body.name === "") {
+    if (req.body.submitButton.startsWith("remove")) {
+        // To indicate which Pokemon to remove, the value of the remove button will contain
+        // the index of that Pokemon; for example, "remove0" indicates we should remove the first
+        // Pokemon in the team
+        let index = Number(req.body.submitButton.slice(6, req.body.submitButton.length));
+        req.session.pokemonList.splice(index, 1);
+        render(req, res, "", "");
+    } else if (req.body.name === "") {
         render(req, res, "You did not select a Pokémon yet!", "");
-    } else {
+    } 
+     else {
         handleHTTPResponse(req, res);
     }
 });

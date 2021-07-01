@@ -14,7 +14,7 @@ You can view the website at https://stats-master.herokuapp.com/
 * View the abilities of all Pokémon
 * View a few of the most notable moves of each Pokémon
 
-## How to Use this Website
+## How to Use This Website
 
 1. Choose a Pokémon by selecting one from the dropdown menu. 
 2. Once you specify the Pokémon's name, you can decide if you want the Pokémon to appear shiny or not shiny. 
@@ -26,7 +26,7 @@ You can view the website at https://stats-master.herokuapp.com/
 1. If you haven't already, download Node.js (https://nodejs.org/en/)
 2. Clone this repository with the command `git clone https://github.com/Douglas-Hong/StatsMaster.git`
 3. Use the command `node app.js` in your StatsMaster directory
-4. Since the server is running on port 3000, you can navigate to the website via http://localhost:3000/
+4. Since the website is running on port 3000, you can navigate to the website via http://localhost:3000/
 
 ## Images
 
