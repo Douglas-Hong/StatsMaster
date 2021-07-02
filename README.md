@@ -8,7 +8,9 @@ You can view the website at https://stats-master.herokuapp.com/
 
 * Choose any Pokémon (including special forms) from generations 1-8
 * Select shiny and non-shiny Pokémon
-* Examine the stats of multiple Pokémon at once
+* Create your own team and examine the stats of multiple Pokémon at once
+* Remove and add as many Pokémon you want
+* Save your team so you can view it in the future
 * View the in-game base stats (HP, Attack, Defense, Sp. Atk, Sp. Def, and Speed) of all Pokémon
 * View the height/weight of all Pokémon
 * View the abilities of all Pokémon

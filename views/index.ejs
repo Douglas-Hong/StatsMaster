@@ -3,9 +3,9 @@
   <section id="selection">
     <div class="container-fluid">
       <% if (errorMessage !== "") { %>
-        <div class="error-section">
+        <div class="alert-section">
           <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <div class="error-message">
+            <div class="alert-message">
               <strong>Error!</strong> <%= errorMessage %>
             </div>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -13,10 +13,20 @@
         </div>
       <% } %>
       <% if (warningMessage !== "") { %>
-        <div class="error-section">
+        <div class="alert-section">
           <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <div class="error-message">
+            <div class="alert-message">
               <strong>Warning!</strong> <%= warningMessage %>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        </div>
+      <% } %>
+      <% if (successMessage !== "") { %>
+        <div class="alert-section">
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <div class="alert-message">
+              <strong>Success!</strong> <%= successMessage %>
             </div>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
@@ -54,8 +64,9 @@
       <div class="container-fluid">
         <div class="text-center">
           <h1 class="team-heading">Your Team!</h1>
-          <form action="/save-team" method="post">
-            <button type="submit" class="btn btn-dark save-team-button">Save Team</button>
+          <form action="/team-action" method="post">
+            <button type="submit" name="submitButton" value="save" class="btn btn-dark team-save-button">Save Team</button>
+            <button type="submit" name="submitButton" value="load" class="btn btn-dark team-load-button">Load Team</button>
           </form>
         </div>
         <% for (let i = 0; i < pokemonList.length; i++) { %>
@@ -134,6 +145,10 @@
         <% } %>
       </div>
     </section>
+  <% } else { %>
+    <div class="container-fluid load-team-section">
+      <p>Already saved a team from a previous session? <a class="link" href="/load-team">Load your team!</a></p>
+    </div>
   <% } %>
   <!-- jQuery, Bootstrap Bundle with Popper, and custom scripts -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

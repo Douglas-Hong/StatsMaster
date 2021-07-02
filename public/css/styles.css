@@ -13,11 +13,11 @@
     font-size: 2.5rem;
 }
 
-.error-section {
+.alert-section {
     margin-top: 50px;
 }
 
-.error-message {
+.alert-message {
     font-size: 1.25rem;
 }
 
@@ -42,8 +42,14 @@
     margin: 7% 0 25px;
 }
 
-.save-team-button {
+.team-save-button {
     margin-bottom: 25px;
+    margin-right: 12px;
+}
+
+.team-load-button {
+    margin-bottom: 25px;
+    margin-left: 12px;
 }
 
 .pokemon-heading {
@@ -116,6 +122,11 @@
     text-decoration: none;
 }
 
+.load-team-section {
+    padding-top: 50px;
+    font-size: 1.25rem;
+}
+
 .regular-heading {
     font-family: "Permanent Marker", sans-serif;
     font-size: 3rem;
@@ -128,11 +139,14 @@
     margin-top: 35px;
 }
 
-.save-team-text {
+.login-section {
     font-size: 1.25rem;
+}
+
+.save-team-text {
     margin-bottom: 50px;
 }
 
-.save-submit-button {
-    margin-right: 50px;
+.username-input {
+    margin-bottom: 50px;
 }
