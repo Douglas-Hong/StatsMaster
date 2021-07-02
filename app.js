@@ -1,6 +1,7 @@
 const express = require("express");
 const https = require("https");
 const session = require("express-session");
+const mongoose = require("mongoose");
 const parseData = require(__dirname + "/parseData.js");
 
 
@@ -20,6 +21,31 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }));
+
+
+mongoose.connect("mongodb+srv://admin-douglas:test123@cluster0.udvqp.mongodb.net/statsmaster?retryWrites=true&w=majority", {useNewUrlParser: true});
+const teamSchema = new mongoose.Schema ({
+    username: String,
+    team: [{
+        name: String,
+        form: String,
+        spriteURL: String,
+        stats: [Number],
+        types: [String],
+        abilities: [{
+            ability: String,
+            url: String
+        }],
+        height: String,
+        weight: Number,
+        notableMoves: [{
+            name: String,
+            moveLevel: Number,
+            url: String
+        }]
+    }]
+});
+const Team = mongoose.model("Team", teamSchema);
 
 
 // This function renders index.ejs with the appropriate data (pokemonList, statNames, 
@@ -60,9 +86,7 @@ app.get("/feedback", function (req, res) {
 });
 
 
-// This function makes a GET request to the API and receives an HTTP response;
-// this function then renders a new page based on this response
-function handleHTTPResponse(req, res) {
+app.post("/", function (req, res) {
     const name = req.body.name;
     const form = req.body.form;
     const url = "https://pokeapi.co/api/v2/pokemon/" + name;
@@ -94,23 +118,44 @@ function handleHTTPResponse(req, res) {
             });
         }
     });
-}
+});
 
 
-app.post("/", function (req, res) {
-    if (req.body.submitButton.startsWith("remove")) {
-        // To indicate which Pokemon to remove, the value of the remove button will contain
-        // the index of that Pokemon; for example, "remove0" indicates we should remove the first
-        // Pokemon in the team
-        let index = Number(req.body.submitButton.slice(6, req.body.submitButton.length));
-        req.session.pokemonList.splice(index, 1);
-        render(req, res, "", "");
-    } else if (req.body.name === "") {
-        render(req, res, "You did not select a Pokémon yet!", "");
-    } 
-     else {
-        handleHTTPResponse(req, res);
+app.post("/remove", function (req, res) {
+    req.session.pokemonList.splice(req.body.removeButton, 1);
+    res.redirect("/");
+});
+
+
+app.post("/save-team", function (req, res) {
+    res.render("saveTeam.ejs");
+})
+
+
+app.post("/save", function (req, res) {
+    if (req.body.saveButton === "save") {
+        let currentUsername = req.body.username;
+    
+        Team.findOne({username: currentUsername}, function(err, team) {
+            if (err) {
+                console.log(err);
+            } else if (!team) {
+                const newTeam = new Team ({
+                    username: currentUsername,
+                    team: req.session.pokemonList
+                });
+                newTeam.save();
+            } else {
+                Team.updateOne({username: currentUsername}, {team: req.session.pokemonList}, function(err) {
+                    if (err) {
+                        console.log(err);
+                    }
+                });
+            }
+        })
     }
+
+    res.redirect("/");
 });
 
 

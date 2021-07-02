@@ -1,38 +1,6 @@
 exports.getPokemon = getPokemon;
 
 
-class Pokemon {
-    constructor(name, form, spriteURL, stats, types, abilities, height, weight, notableMoves) {
-        this.name = name;
-        this.form = form;
-        this.spriteURL = spriteURL;
-        this.stats = stats;
-        this.types = types;
-        this.abilities = abilities;
-        this.height = height;
-        this.weight = weight;
-        this.notableMoves = notableMoves
-    }
-}
-
-
-class Ability {
-    constructor(ability, url) {
-        this.ability = ability;
-        this.url = url
-    }
-}
-
-
-class Move {
-    constructor(name, moveLevel, url) {
-        this.name = name;
-        this.moveLevel = moveLevel;
-        this.url = url
-    }
-}
-
-
 // Given the name, form (shint/not shiny), and parsed JSON data for a specific
 // Pokémon, this function returns a Pokémon object that contains various
 // amounts of interesting data
@@ -72,8 +40,17 @@ function getPokemon(name, form, pokemonData) {
         moves.push(getMove(pokemonData.moves[i]));
     }
 
-    return new Pokemon(name, form, spriteURL, stats, types, abilities, height,
-        weight, getNotableMoves(moves, abilities.length));
+    return {
+        name: name,
+        form: form,
+        spriteURL, spriteURL,
+        stats: stats,
+        types: types,
+        abilities: abilities,
+        height: height,
+        weight: weight,
+        notableMoves: getNotableMoves(moves, abilities.length)
+    };
 }
 
 
@@ -137,7 +114,10 @@ function formatForURL(text) {
 function getAbility(ability) {
     let newAbility = ability[0].toUpperCase() + ability.slice(1, ability.length).replace("-", " ");
     let abilityURL = "https://www.serebii.net/abilitydex/" + formatForURL(ability) + ".shtml";
-    return new Ability(formatCapitalization(newAbility, " "), abilityURL);
+    return {
+        ability: formatCapitalization(newAbility, " "),
+        url: abilityURL
+    };
 }
 
 
@@ -146,7 +126,11 @@ function getMove(move) {
     let moveName = move.move.name[0].toUpperCase() + move.move.name.slice(1, move.move.name.length).replace("-", " ");
     let moveLevel = move.version_group_details[0].level_learned_at;
     let moveURL = "https://www.serebii.net/attackdex-swsh/" + formatForURL(move.move.name) + ".shtml";
-    return new Move(formatCapitalization(moveName, " "), moveLevel, moveURL);
+    return {
+        name: formatCapitalization(moveName, " "),
+        moveLevel: moveLevel,
+        url: moveURL
+    };
 }
 
 

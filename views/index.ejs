@@ -28,7 +28,7 @@
           <div class="col-lg-8">
             <label for="pokemon-name" class="form-label selection-label">Pokémon</label>
             <div class="input-group">
-              <select class="form-select" id="pokemon-name" name="name">
+              <select class="form-select" id="pokemon-name" name="name" required>
                 <option value="" hidden>Choose/Type a Pokémon...</option>
                 <%- include("partials/allPokemon") -%>
               </select>
@@ -43,7 +43,7 @@
           </div>
         </div>
         <div class="text-center">
-          <button type="submit" name="submitButton" value="add" class="btn btn-dark selection-button">Add Pokémon</button>
+          <button type="submit" class="btn btn-dark selection-button">Add Pokémon</button>
         </div>
       </form>
     </div>
@@ -52,7 +52,12 @@
   <% if (pokemonList.length > 0) { %>
     <section id="team">
       <div class="container-fluid">
-        <h1 class="team-heading">Your Team!</h1>
+        <div class="text-center">
+          <h1 class="team-heading">Your Team!</h1>
+          <form action="/save-team" method="post">
+            <button type="submit" class="btn btn-dark save-team-button">Save Team</button>
+          </form>
+        </div>
         <% for (let i = 0; i < pokemonList.length; i++) { %>
           <% let pokemon = pokemonList[i]; %>
           <div class="card border-secondary mb-3">
@@ -65,8 +70,8 @@
                   <% } %>
                 </div>
                 <div class="col-2">
-                  <form action="/" method="post">
-                    <button type="submit" name="submitButton" value="<%= "remove" + i %>" class="btn btn-outline-danger remove-button">
+                  <form action="/remove" method="post">
+                    <button type="submit" name="removeButton" value="<%= i %>" class="btn btn-outline-danger remove-button">
                       <i class="fas fa-times remove-icon"></i>
                     </button>
                   </form>

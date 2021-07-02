@@ -40,7 +40,10 @@
     font-family: "Permanent Marker", sans-serif;
     font-size: 3rem;
     margin: 7% 0 25px;
-    text-align: center;
+}
+
+.save-team-button {
+    margin-bottom: 25px;
 }
 
 .pokemon-heading {
@@ -123,4 +126,13 @@
 .text-section {
     margin-bottom: 60px;
     margin-top: 35px;
+}
+
+.save-team-text {
+    font-size: 1.25rem;
+    margin-bottom: 50px;
+}
+
+.save-submit-button {
+    margin-right: 50px;
 }

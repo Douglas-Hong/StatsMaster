@@ -1,5 +1,5 @@
 // As of generation 8, the highest individual base stat is 255 (Blissey's HP stat);
-// this number will help us calculate the width of each stat bar;
+// this number will help us calculate the width of each stat bar
 const maxStat = 255;
 
 // For extremely small stats (less than or equal to 5), we set the width to 3% so that
