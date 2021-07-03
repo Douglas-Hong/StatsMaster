@@ -70,10 +70,11 @@ app.get("/", function (req, res) {
 
     if (req.session.savedSuccessfully) {
         req.session.savedSuccessfully = false;
-        render(req, res, "", "", "Your team was saved!");
+        render(req, res, "", "", "Your team was saved! Please remember your username so you can load the team in the future!");
     } else if (req.session.loadedSuccessfully) {
         req.session.loadedSuccessfully = false;
-        render(req, res, "", "", "Your team has been loaded!");
+        render(req, res, "", "", "Your team has been loaded! If this is not your team, it is highly likely someone else is using " +
+            "your username; in that case, please use another username!");
     } else {
         render(req, res, "", "", "");
     }
@@ -154,8 +155,11 @@ app.post("/remove", function (req, res) {
 app.post("/team-action", function (req, res) {
     if (req.body.submitButton === "save") {
         res.redirect("/save-team");
-    } else {
+    } else if (req.body.submitButton === "load"){
         res.redirect("/load-team");
+    } else {
+        req.session.pokemonList = [];
+        res.redirect("/");
     }
 })
 

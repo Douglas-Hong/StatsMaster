@@ -22,6 +22,8 @@ You can view the website at https://stats-master.herokuapp.com/
 2. Once you specify the Pokémon's name, you can decide if you want the Pokémon to appear shiny or not shiny. 
 3. When you are ready, press the "Add Pokémon" button. Your Pokémon's stats should now appear!
 4. You can view the stats of multiple Pokémon at once, so you can repeat this process as many times you want.
+5. If you want to use a team in the future, click the "Save" button and enter a unique username; to load this
+saved team, all you have to do is click "Load" and enter that same username.
 
 ## Installation
 
@@ -38,4 +40,4 @@ You can view the website at https://stats-master.herokuapp.com/
 
 <p align="center">Team Section</p>
 
-![Team Section](https://i.imgur.com/TEpJUUw.jpg)
+![Team Section](https://imgur.com/WlzD1gP)

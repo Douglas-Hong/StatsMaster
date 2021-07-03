@@ -2,15 +2,20 @@
     padding: 0 18%;
 }
 
-@media (max-width: 1200px) {
-    .container-fluid {
-      padding: 0 8%;
-    }
-}
-
 .title {
     font-family: "Permanent Marker", sans-serif;
     font-size: 2.5rem;
+}
+
+@media (max-width: 1200px) {
+    .container-fluid {
+        padding: 0 8%;
+    }
+
+    .title {
+        font-family: "Permanent Marker", sans-serif;
+        font-size: 2rem;
+    }
 }
 
 .alert-section {
@@ -24,32 +29,34 @@
 .selection-heading {
     font-family: "Permanent Marker", sans-serif;
     font-size: 3rem;
-    margin-top: 7%;
+    margin-top: 75px;
     text-align: center;
 }
 
 .selection-label {
-    margin-top: 25px;
+    margin-top: 40px;
 }
 
 .selection-button {
-    margin: 25px;
+    margin: 50px auto;
 }
 
 .team-heading {
     font-family: "Permanent Marker", sans-serif;
     font-size: 3rem;
-    margin: 7% 0 25px;
+    margin: 50px 0 25px;
+}
+
+.team-button-row {
+    margin-bottom: 25px;
 }
 
 .team-save-button {
-    margin-bottom: 25px;
-    margin-right: 12px;
+    margin-right: 25px;
 }
 
-.team-load-button {
-    margin-bottom: 25px;
-    margin-left: 12px;
+.team-clear-button {
+    margin-left: 25px;
 }
 
 .pokemon-heading {
@@ -143,8 +150,9 @@
     font-size: 1.25rem;
 }
 
-.save-team-text {
+.save-load-text {
     margin-bottom: 50px;
+    margin-top: 50px;
 }
 
 .username-input {

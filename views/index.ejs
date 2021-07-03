@@ -64,9 +64,10 @@
       <div class="container-fluid">
         <div class="text-center">
           <h1 class="team-heading">Your Team!</h1>
-          <form action="/team-action" method="post">
-            <button type="submit" name="submitButton" value="save" class="btn btn-dark team-save-button">Save Team</button>
-            <button type="submit" name="submitButton" value="load" class="btn btn-dark team-load-button">Load Team</button>
+          <form action="/team-action" method="post" class="team-button-row">
+            <button type="submit" name="submitButton" value="save" class="btn btn-dark team-save-button">Save</button>
+            <button type="submit" name="submitButton" value="load" class="btn btn-dark">Load</button>
+            <button type="submit" name="submitButton" value="clear" class="btn btn-dark team-clear-button">Clear</button>
           </form>
         </div>
         <% for (let i = 0; i < pokemonList.length; i++) { %>
