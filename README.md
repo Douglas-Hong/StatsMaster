@@ -40,4 +40,4 @@ saved team, all you have to do is click "Load" and enter that same username.
 
 <p align="center">Team Section</p>
 
-![Team Section](https://imgur.com/WlzD1gP)
+![Team Section](https://i.imgur.com/WlzD1gP.jpg)
