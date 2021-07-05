@@ -38,7 +38,7 @@
           <div class="col-lg-8">
             <label for="pokemon-name" class="form-label selection-label">Pokémon</label>
             <div class="input-group">
-              <select class="form-select" id="pokemon-name" name="name" required>
+              <select class="form-select" id="pokemon-name" name="name">
                 <option value="" hidden>Choose/Type a Pokémon...</option>
                 <%- include("partials/allPokemon") -%>
               </select>
@@ -70,7 +70,7 @@
             <button type="submit" name="submitButton" value="clear" class="btn btn-dark team-clear-button">Clear</button>
           </form>
         </div>
-        <div class="border border-secondary team-navigation">
+        <div class="border border-secondary team-navigation text-center">
           <% for (let i = 0; i < pokemonList.length; i++) { %>
             <button class="icon-button" name="<%= pokemonList[i].originalName %>"><img src="<%= pokemonList[i].iconURL %>"></button>
           <% } %>
@@ -152,7 +152,7 @@
       </div>
     </section>
   <% } else { %>
-    <div class="container-fluid load-team-section">
+    <div class="container-fluid load-team-section text-center">
       <p>Already saved a team from a previous session? <a class="link" href="/load-team">Load your team!</a></p>
     </div>
   <% } %>

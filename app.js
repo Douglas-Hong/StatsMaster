@@ -27,9 +27,11 @@ mongoose.connect("mongodb+srv://admin-douglas:test123@cluster0.udvqp.mongodb.net
 const teamSchema = new mongoose.Schema ({
     username: String,
     team: [{
+        originalName: String,
         name: String,
         form: String,
         spriteURL: String,
+        iconURL: String,
         stats: [Number],
         types: [String],
         abilities: [{
@@ -158,14 +160,18 @@ function handleHTTPResponse(req, res, name, form, url) {
 
 
 app.post("/", function (req, res) {
-    const name = req.body.name;
-    const form = req.body.form;
-    const url = "https://pokeapi.co/api/v2/pokemon/" + name;
-
-    if (pokemonAlreadyExists(name, form, req.session.pokemonList)) {
-        render(req, res, "You already added that exact Pokémon! Try a shiny or non-shiny form instead!", "", "");
+    if (req.body.name === "") {
+        render(req, res, "You did not select any Pokémon!", "", "");
     } else {
-        handleHTTPResponse(req, res, name, form, url);
+        const name = req.body.name;
+        const form = req.body.form;
+        const url = "https://pokeapi.co/api/v2/pokemon/" + name;
+    
+        if (pokemonAlreadyExists(name, form, req.session.pokemonList)) {
+            render(req, res, "You already added that exact Pokémon! Try a shiny or non-shiny form instead!", "", "");
+        } else {
+            handleHTTPResponse(req, res, name, form, url);
+        }
     }
 });
 
@@ -185,7 +191,7 @@ app.post("/team-action", function (req, res) {
         req.session.pokemonList = [];
         res.redirect("/");
     }
-})
+});
 
 
 app.post("/save", function (req, res) {
