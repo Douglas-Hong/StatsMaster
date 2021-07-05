@@ -1,10 +1,17 @@
 exports.getPokemon = getPokemon;
 
 
-// Given the name, form (shint/not shiny), and parsed JSON data for a specific
+// Given the name, form (shiny/not shiny), and parsed JSON data for a specific
 // Pokémon, this function returns a Pokémon object that contains various
 // amounts of interesting data
 function getPokemon(name, form, pokemonData) {
+    // The original name is necessary because we are going to use it as the name 
+    // for certain classes and IDs
+    originalName = name;
+    if (form === "shiny") {
+        originalName += "-shiny";
+    }
+    
     name = formatName(name);
 
     let spriteURL = "";
@@ -41,9 +48,11 @@ function getPokemon(name, form, pokemonData) {
     }
 
     return {
+        originalName: originalName,
         name: name,
         form: form,
-        spriteURL, spriteURL,
+        spriteURL: spriteURL,
+        iconURL: pokemonData.sprites.versions["generation-viii"].icons.front_default,
         stats: stats,
         types: types,
         abilities: abilities,

@@ -59,6 +59,18 @@
     margin-left: 25px;
 }
 
+.team-navigation {
+    background-color: #F5F5F5;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+}
+
+.icon-button {
+    background: transparent;
+    border: none !important;
+    margin: 0;
+}
+
 .pokemon-heading {
     display: inline-block;
     font-size: 1.5rem;

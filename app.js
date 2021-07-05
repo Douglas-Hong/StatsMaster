@@ -111,11 +111,22 @@ app.get("/load-team", function (req, res) {
 });
 
 
-app.post("/", function (req, res) {
-    const name = req.body.name;
-    const form = req.body.form;
-    const url = "https://pokeapi.co/api/v2/pokemon/" + name;
+function pokemonAlreadyExists(name, form, pokemonList) {
+    if (form === "shiny") {
+        name += "-shiny";
+    }
 
+    for (let i = 0; i < pokemonList.length; i++) {
+        if (pokemonList[i].originalName === name) {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+
+function handleHTTPResponse(req, res, name, form, url) {
     https.get(url, function (response) {
         if (response.statusCode === 404) {
             render(req, res, "This Pokémon could not be retrieved because we searched" +
@@ -143,6 +154,19 @@ app.post("/", function (req, res) {
             });
         }
     });
+}
+
+
+app.post("/", function (req, res) {
+    const name = req.body.name;
+    const form = req.body.form;
+    const url = "https://pokeapi.co/api/v2/pokemon/" + name;
+
+    if (pokemonAlreadyExists(name, form, req.session.pokemonList)) {
+        render(req, res, "You already added that exact Pokémon! Try a shiny or non-shiny form instead!", "", "");
+    } else {
+        handleHTTPResponse(req, res, name, form, url);
+    }
 });
 
 

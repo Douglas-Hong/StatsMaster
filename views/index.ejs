@@ -70,9 +70,14 @@
             <button type="submit" name="submitButton" value="clear" class="btn btn-dark team-clear-button">Clear</button>
           </form>
         </div>
+        <div class="border border-secondary team-navigation">
+          <% for (let i = 0; i < pokemonList.length; i++) { %>
+            <button class="icon-button" name="<%= pokemonList[i].originalName %>"><img src="<%= pokemonList[i].iconURL %>"></button>
+          <% } %>
+        </div>
         <% for (let i = 0; i < pokemonList.length; i++) { %>
           <% let pokemon = pokemonList[i]; %>
-          <div class="card border-secondary mb-3">
+          <div class="card border-secondary mb-3" id="<%= pokemon.originalName %>">
             <div class="card-header">
               <div class="row">
                 <div class="col-10">
@@ -157,5 +162,6 @@
     integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
   </script>
   <script src="scripts/setBarWidth.js"></script>
+  <script src="scripts/scrollHandler.js"></script>
 </body>
 </html>
