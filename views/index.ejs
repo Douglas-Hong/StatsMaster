@@ -38,9 +38,8 @@
           <div class="col-lg-8">
             <label for="pokemon-name" class="form-label selection-label">Pokémon</label>
             <div class="input-group">
-              <select class="form-select" id="pokemon-name" name="name">
+              <select class="form-select all-pokemon-selection" id="pokemon-name" name="name">
                 <option value="" hidden>Choose/Type a Pokémon...</option>
-                <%- include("partials/allPokemon") -%>
               </select>
             </div>
           </div>
@@ -76,14 +75,14 @@
           <% } %>
         </div>
         <% for (let i = 0; i < pokemonList.length; i++) { %>
-          <% let pokemon = pokemonList[i]; %>
+          <% const pokemon = pokemonList[i]; %>
           <div class="card border-secondary mb-3" id="<%= pokemon.originalName %>">
             <div class="card-header">
               <div class="row">
                 <div class="col-10">
                   <h3 class="pokemon-heading"><%= pokemon.name %></h3>
                   <% for (let j = 0; j < pokemon.types.length; j++) { %>
-                    <img class="type-icon" src="<%='images/types/' + pokemon.types[j] + '.webp' %>">
+                    <img class="type-icon" src="<%= 'images/types/' + pokemon.types[j] + '.webp' %>">
                   <% } %>
                 </div>
                 <div class="col-2">
@@ -161,7 +160,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
   </script>
-  <script src="scripts/setBarWidth.js"></script>
+  <script src="scripts/allPokemon.js"></script>
   <script src="scripts/scrollHandler.js"></script>
+  <script src="scripts/setBarWidth.js"></script>
 </body>
 </html>

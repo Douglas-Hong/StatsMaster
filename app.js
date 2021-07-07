@@ -51,7 +51,7 @@ const Team = mongoose.model("Team", teamSchema);
 
 
 // This function renders index.ejs with the appropriate data (pokemonList, statNames, 
-// errorMessage, warningMessage)
+// errorMessage, warningMessage, successMessage)
 function render(request, response, error, warning, success) {
     response.render("index.ejs", {
         pokemonList: request.session.pokemonList,
@@ -59,6 +59,50 @@ function render(request, response, error, warning, success) {
         errorMessage: error,
         warningMessage: warning,
         successMessage: success
+    });
+}
+
+
+// This function determins if a pokemonList already contains a Pokémon
+// with the exact name and form as the given Pokémon
+function pokemonAlreadyExists(name, form, pokemonList) {
+    if (form === "shiny") {
+        name += "-shiny";
+    }
+    return pokemonList.some((pokemon) => pokemon.originalName === name);
+}
+
+
+// This function gets a HTTPResponse from the API. If we receive certain status codes,
+// we will display an error message. Moreover, if a Pokémon has no moves, we will 
+// display a warning message. Otherwise, we parse the response and add a new Pokémon
+function handleHTTPResponse(req, res, name, form, url) {
+    https.get(url, function (response) {
+        if (response.statusCode === 404) {
+            render(req, res, "This Pokémon could not be retrieved because we searched " +
+                "for the data in the wrong place! Please report this in the feedback form!", "", "");
+        } else if (response.statusCode !== 200) {
+            render(req, res, "We could not retrieve the data for this Pokémon. Please try again!", "", "");
+        } else {
+            let pokemonData = "";
+
+            response.on("data", function (data) {
+                pokemonData += data;
+            });
+
+            response.on("end", function () {
+                pokemonData = JSON.parse(pokemonData);
+                req.session.pokemonList.push(parseData.getPokemon(name, form, pokemonData));
+
+                if (pokemonData.moves.length === 0) {
+                    render(req, res, "", "All Generation 8 Pokémon have a blank Notable Moves " +
+                        "section because our data source currently does not provide any moves for " +
+                        "these Pokémon. Hopefully this issue will be resolved soon!", "");
+                } else {
+                    render(req, res, "", "", "");
+                }
+            });
+        }
     });
 }
 
@@ -113,52 +157,6 @@ app.get("/load-team", function (req, res) {
 });
 
 
-function pokemonAlreadyExists(name, form, pokemonList) {
-    if (form === "shiny") {
-        name += "-shiny";
-    }
-
-    for (let i = 0; i < pokemonList.length; i++) {
-        if (pokemonList[i].originalName === name) {
-            return true;
-        }
-    }
-    
-    return false;
-}
-
-
-function handleHTTPResponse(req, res, name, form, url) {
-    https.get(url, function (response) {
-        if (response.statusCode === 404) {
-            render(req, res, "This Pokémon could not be retrieved because we searched" +
-                "for the data in the wrong place! Please report this in the feedback form!", "", "");
-        } else if (response.statusCode !== 200) {
-            render(req, res, "We currently cannot retrieve the data for this Pokémon. Please try again!", "", "");
-        } else {
-            let pokemonData = "";
-
-            response.on("data", function (data) {
-                pokemonData += data;
-            });
-
-            response.on("end", function () {
-                pokemonData = JSON.parse(pokemonData);
-                req.session.pokemonList.push(parseData.getPokemon(name, form, pokemonData));
-
-                if (pokemonData.moves.length === 0) {
-                    render(req, res, "", "All Generation 8 Pokémon have a blank Notable Moves " +
-                        "section because our data source currently does not provide any moves for " +
-                        "these Pokémon. Hopefully this issue will be resolved soon!", "");
-                } else {
-                    render(req, res, "", "", "");
-                }
-            });
-        }
-    });
-}
-
-
 app.post("/", function (req, res) {
     if (req.body.name === "") {
         render(req, res, "You did not select any Pokémon!", "", "");
@@ -168,7 +166,7 @@ app.post("/", function (req, res) {
         const url = "https://pokeapi.co/api/v2/pokemon/" + name;
     
         if (pokemonAlreadyExists(name, form, req.session.pokemonList)) {
-            render(req, res, "You already added that exact Pokémon! Try a shiny or non-shiny form instead!", "", "");
+            render(req, res, "You already added that exact Pokémon! Try another form instead!", "", "");
         } else {
             handleHTTPResponse(req, res, name, form, url);
         }
@@ -194,8 +192,8 @@ app.post("/team-action", function (req, res) {
 });
 
 
-app.post("/save", function (req, res) {
-    let currentUsername = req.body.username;
+app.post("/save-team", function (req, res) {
+    const currentUsername = req.body.username;
 
     Team.findOne({username: currentUsername}, function(err, team) {
         if (err) {
@@ -220,8 +218,8 @@ app.post("/save", function (req, res) {
 });
 
 
-app.post("/load", function (req, res) {
-    let currentUsername = req.body.username;
+app.post("/load-team", function (req, res) {
+    const currentUsername = req.body.username;
 
     Team.findOne({username: currentUsername}, function(err, team) {
         if (err) {
