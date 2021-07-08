@@ -85,22 +85,6 @@
               </div>
             </div>
           </div>
-          <div class="offcanvas offcanvas-start" id="offcanvas-load" tabindex="-1" data-bs-scroll="true">
-            <div class="offcanvas-header">
-              <h5 class="offcanvas-heading">Load Your Team!</h5>
-              <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-              <div class="text-section text-center login-section">
-                <p class="login-text">To view your team from a previous session, please enter the username you used to save the team!</p>
-                <form action="/load-team" method="post">
-                  <label for="username" class="offcanvas-label">Username</label>
-                  <input type="text" class="form-control username-input" id="username" name="username" required>
-                  <button type="submit" class="btn btn-dark">Load Team</button>
-                </form>
-              </div>
-            </div>
-          </div>
           <div class="offcanvas offcanvas-start" id="offcanvas-sort" tabindex="-1" data-bs-scroll="true">
             <div class="offcanvas-header">
               <h5 class="offcanvas-heading">Sort Your Team!</h5>
@@ -205,9 +189,26 @@
     </section>
   <% } else { %>
     <div class="container-fluid load-team-section text-center">
-      <p>Already saved a team from a previous session? <a class="link" href="/load-team">Load your team!</a></p>
+      <p>Already saved a team from a previous session? <a class="link" data-bs-toggle="offcanvas" href="#offcanvas-load" role="button">Load your team!</a></p>
     </div>
   <% } %>
+  <!-- The Load Team offcanvas sidebar is used in both the if block and else block above, so we must place it outside both -->
+  <div class="offcanvas offcanvas-start" id="offcanvas-load" tabindex="-1" data-bs-scroll="true">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-heading">Load Your Team!</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="text-section text-center login-section">
+        <p class="login-text">To view your team from a previous session, please enter the username you used to save the team!</p>
+        <form action="/load-team" method="post">
+          <label for="username" class="offcanvas-label">Username</label>
+          <input type="text" class="form-control username-input" id="username" name="username" required>
+          <button type="submit" class="btn btn-dark">Load Team</button>
+        </form>
+      </div>
+    </div>
+  </div>
   <!-- jQuery, Bootstrap Bundle with Popper, and custom scripts -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
