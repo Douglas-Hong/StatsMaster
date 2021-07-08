@@ -63,13 +63,66 @@
       <div class="container-fluid">
         <div class="text-center">
           <h1 class="team-heading">Your Team!</h1>
-          <form action="/team-action" method="post" class="team-button-row">
-            <button type="submit" name="submitButton" value="save" class="btn btn-dark team-save-button">Save</button>
-            <button type="submit" name="submitButton" value="load" class="btn btn-dark">Load</button>
-            <button type="submit" name="submitButton" value="clear" class="btn btn-dark team-clear-button">Clear</button>
+          <button type="button" class="btn btn-dark team-button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-save">Save</button>
+          <button type="button" class="btn btn-dark team-button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-load">Load</button>
+          <form action="/clear" method="post" class="clear-form">
+            <button type="submit" class="btn btn-dark team-button">Clear</button>
           </form>
+          <button type="button" class="btn btn-dark team-button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-sort">Sort</button>
+          <div class="offcanvas offcanvas-start" id="offcanvas-save" tabindex="-1" data-bs-scroll="true">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-heading">Save Your Team!</h5>
+              <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              <div class="text-section text-center login-section">
+                <p class="login-text">To save a team and be able to see it later, please enter a <strong>UNIQUE</strong> and <strong>MEMORABLE</strong> username!</p>
+                <form action="/save-team" method="post">
+                  <label for="username" class="offcanvas-label">Username</label>
+                  <input type="text" class="form-control username-input" id="username" name="username" required>
+                  <button type="submit" class="btn btn-dark">Save Team</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="offcanvas offcanvas-start" id="offcanvas-load" tabindex="-1" data-bs-scroll="true">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-heading">Load Your Team!</h5>
+              <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              <div class="text-section text-center login-section">
+                <p class="login-text">To view your team from a previous session, please enter the username you used to save the team!</p>
+                <form action="/load-team" method="post">
+                  <label for="username" class="offcanvas-label">Username</label>
+                  <input type="text" class="form-control username-input" id="username" name="username" required>
+                  <button type="submit" class="btn btn-dark">Load Team</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="offcanvas offcanvas-start" id="offcanvas-sort" tabindex="-1" data-bs-scroll="true">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-heading">Sort Your Team!</h5>
+              <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              <div class="text-section text-center login-section">
+                <p class="login-text">Select the way you want to sort your team!</p>
+                <form action="/sort-team" method="post">
+                  <select class="form-select sort-form" name="sortOrder">
+                    <option value="a-z">Alphabetical Order (A-Z)</option>
+                    <option value="z-a">Reverse Alphabetical Order (Z-A)</option>
+                    <option value="high-low-stat">Highest Base Stat Total - Lowest Base Stat Total</option>
+                    <option value="low-high-stat">Lowest Base Stat Total - Highest Base Stat Total</option>
+                  </select>
+                  <button type="submit" class="btn btn-dark">Sort Team</button>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="border border-secondary team-navigation text-center">
+        <div class="border border-secondary rounded team-navigation text-center">
           <% for (let i = 0; i < pokemonList.length; i++) { %>
             <button class="icon-button" name="<%= pokemonList[i].originalName %>"><img src="<%= pokemonList[i].iconURL %>"></button>
           <% } %>

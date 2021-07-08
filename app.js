@@ -4,7 +4,8 @@ const https = require("https");
 const session = require("express-session");
 const mongoose = require("mongoose");
 const parseData = require(__dirname + "/parseData.js");
-let uri = process.env.MONGODB_URI;
+const sortTeam = require(__dirname + "/sortTeam.js");
+const uri = process.env.MONGODB_URI;
 
 
 const statNames = ["HP", "Attack", "Defense", "Sp. Atk", "Sp. Def", "Speed"];
@@ -182,18 +183,6 @@ app.post("/remove", function (req, res) {
 });
 
 
-app.post("/team-action", function (req, res) {
-    if (req.body.submitButton === "save") {
-        res.redirect("/save-team");
-    } else if (req.body.submitButton === "load"){
-        res.redirect("/load-team");
-    } else {
-        req.session.pokemonList = [];
-        res.redirect("/");
-    }
-});
-
-
 app.post("/save-team", function (req, res) {
     const currentUsername = req.body.username;
 
@@ -235,6 +224,18 @@ app.post("/load-team", function (req, res) {
             res.redirect("/"); 
         }
     });
+});
+
+
+app.post("/clear", function (req, res) {
+    req.session.pokemonList = [];
+    res.redirect("/");
+});
+
+
+app.post("/sort-team", function (req, res) {
+    sortTeam.sort(req.body.sortOrder, req.session.pokemonList);
+    res.redirect("/");
 });
 
 

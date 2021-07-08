@@ -47,16 +47,50 @@
     margin: 50px 0 25px;
 }
 
-.team-button-row {
-    margin-bottom: 25px;
+.team-button {
+    margin: 0 15px 25px;
 }
 
-.team-save-button {
-    margin-right: 25px;
+@media (max-width: 762px) {
+    .team-button {
+        margin: 0 5px 25px;
+    }
 }
 
-.team-clear-button {
-    margin-left: 25px;
+.clear-form {
+    display: inline-block;
+}
+
+.offcanvas-heading {
+    margin-top: 10px;
+    font-size: 1.5rem;
+}
+
+.offcanvas-label {
+    margin-bottom: 15px;
+}
+
+.text-section {
+    margin-bottom: 60px;
+    margin-top: 35px;
+}
+
+.login-section {
+    font-size: 1.25rem;
+}
+
+.login-text {
+    margin-bottom: 50px;
+    margin-top: 25px;
+}
+
+.username-input {
+    margin: 0 auto 50px;
+    width: 80%;
+}
+
+.sort-form {
+    margin-bottom: 50px;
 }
 
 .team-navigation {
@@ -152,22 +186,4 @@
     font-size: 3rem;
     margin-top: 25px;
     text-align: center;
-}
-
-.text-section {
-    margin-bottom: 60px;
-    margin-top: 35px;
-}
-
-.login-section {
-    font-size: 1.25rem;
-}
-
-.login-text {
-    margin-bottom: 50px;
-    margin-top: 50px;
-}
-
-.username-input {
-    margin-bottom: 50px;
 }

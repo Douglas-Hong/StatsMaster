@@ -27,18 +27,21 @@ saved team, all you have to do is click "Load" and enter that same username.
 
 ## Installation
 
+Install Node.js and clone this repository:
 1. If you haven't already, download Node.js (https://nodejs.org/en/).
 2. Clone this repository with the command `git clone https://github.com/Douglas-Hong/StatsMaster.git`.
-3. Use the command `node app.js` in your StatsMaster directory.
-4. Since the website is running on port 3000, you can navigate to the website via http://localhost:3000/.
 
-If you want to use your own database to save and load teams, please follow these extra steps:
+Create your own database to save and load teams:
 1. If you haven't already, create a free MongoDB Atlas account (https://www.mongodb.com/cloud/atlas/register).
 2. Create a cluster; you can name it anything.
 3. Create an admin account, and select which IP addresses can use the database.
 4. Click the "Connect" button below the name of your cluster. Navigate to "Connect your application", and select Node.js 3.6 or later as the driver. Copy the connection string onto your clipboard.
 5. In the StatsMaster directory, create a file named `.env`.
 6. In `.env`, type `MONGODB_URI=connectionURL`, where connectionURL is your connection string. Make sure your connection string has the correct username and password.
+
+Launch the website:
+1. Use the command `node app.js` in your StatsMaster directory.
+2. Since the website is running on port 3000, you can navigate to the website via http://localhost:3000/.
 
 ## Images
 
