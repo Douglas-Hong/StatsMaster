@@ -177,8 +177,9 @@
 }
 
 .load-team-section {
-    padding-top: 50px;
     font-size: 1.25rem;
+    padding-top: 50px;
+    margin-bottom: 100px;
 }
 
 .regular-heading {

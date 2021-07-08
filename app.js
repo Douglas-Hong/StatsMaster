@@ -120,6 +120,9 @@ app.get("/", function (req, res) {
     if (req.session.savedSuccessfully) {
         req.session.savedSuccessfully = false;
         render(req, res, "", "", "Your team was saved! Please remember your username so you can load the team in the future!");
+    } else if (req.session.usernameNotFound) {
+        req.session.usernameNotFound = false;
+        render(req, res, "That username does not exist!", "", "");
     } else if (req.session.loadedSuccessfully) {
         req.session.loadedSuccessfully = false;
         render(req, res, "", "", "Your team has been loaded! If this is not your team, it is highly likely someone else is using " +
@@ -142,21 +145,6 @@ app.get("/announcements", function (req, res) {
 
 app.get("/feedback", function (req, res) {
     res.render("feedback.ejs");
-});
-
-
-app.get("/save-team", function (req, res) {
-    res.render("saveTeam.ejs");
-});
-
-
-app.get("/load-team", function (req, res) {
-    if (req.session.usernameNotFound) {
-        req.session.usernameNotFound = false;
-        res.render("loadTeam.ejs", {errorMessage: "That username does not exist!"});
-    } else {
-        res.render("loadTeam.ejs", {errorMessage: ""});
-    } 
 });
 
 
@@ -217,7 +205,7 @@ app.post("/load-team", function (req, res) {
             console.log(err);
         } else if (!team) {
             req.session.usernameNotFound = true;
-            res.redirect("/load-team");
+            res.redirect("/");
         } else {
             req.session.pokemonList = team.team;
             req.session.loadedSuccessfully = true;
