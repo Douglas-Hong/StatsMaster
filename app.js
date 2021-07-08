@@ -1,9 +1,10 @@
+require('dotenv').config();
 const express = require("express");
 const https = require("https");
 const session = require("express-session");
 const mongoose = require("mongoose");
 const parseData = require(__dirname + "/parseData.js");
-const uri = process.env.MONGODB_URI;
+let uri = process.env.MONGODB_URI;
 
 
 const statNames = ["HP", "Attack", "Defense", "Sp. Atk", "Sp. Def", "Speed"];
