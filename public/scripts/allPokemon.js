@@ -5,6 +5,5 @@ const allPokemon=["Abomasnow","Abomasnow-Mega","Abra","Absol","Absol-Mega","Acce
 
 
 for (let i = 0; i < allPokemon.length; i++) {
-    const name = allPokemon[i];
-    $(".all-pokemon-selection").append(`<option value="${name.toLowerCase()}">${name}</option>`);
+    $(".all-pokemon-selection").append(`<option value="${allPokemon[i].toLowerCase()}">${allPokemon[i]}</option>`);
 }

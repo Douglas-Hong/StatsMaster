@@ -3,6 +3,7 @@ const https = require("https");
 const session = require("express-session");
 const mongoose = require("mongoose");
 const parseData = require(__dirname + "/parseData.js");
+const uri = process.env.MONGODB_URI;
 
 
 const statNames = ["HP", "Attack", "Defense", "Sp. Atk", "Sp. Def", "Speed"];
@@ -23,7 +24,7 @@ app.use(session({
 }));
 
 
-mongoose.connect("mongodb+srv://admin-douglas:test123@cluster0.udvqp.mongodb.net/statsmaster?retryWrites=true&w=majority", {useNewUrlParser: true});
+mongoose.connect(uri, {useNewUrlParser: true});
 const teamSchema = new mongoose.Schema ({
     username: String,
     team: [{
