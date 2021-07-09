@@ -11,6 +11,7 @@ You can view the website at https://stats-master.herokuapp.com/
 * Create your own team and examine the stats of multiple Pokémon at once
 * Remove and add as many Pokémon you want
 * Save your team so you can view it in the future
+* Sort your team based on a variety of characteristics
 * View the in-game base stats (HP, Attack, Defense, Sp. Atk, Sp. Def, and Speed) of all Pokémon
 * View the height/weight of all Pokémon
 * View the abilities of all Pokémon
@@ -37,7 +38,7 @@ Create your own database to save and load teams:
 3. Create an admin account, and select which IP addresses can use the database.
 4. Click the "Connect" button below the name of your cluster. Navigate to "Connect your application", and select Node.js 3.6 or later as the driver. Copy the connection string onto your clipboard.
 5. In the StatsMaster directory, create a file named `.env`.
-6. In `.env`, type `MONGODB_URI=connectionURL`, where connectionURL is your connection string. Make sure your connection string has the correct username and password.
+6. In `.env`, type `MONGODB_URI=connectionString`, where connectionString is the string you previously copied. Make sure your connection string has the correct username and password.
 
 Launch the website:
 1. Use the command `node app.js` in your StatsMaster directory.

@@ -121,7 +121,7 @@ function formatForURL(text) {
 
 // This function returns a new Ability object with a formatted name and valid URL
 function getAbility(ability) {
-    let newAbility = ability[0].toUpperCase() + ability.slice(1, ability.length).replace("-", " ");
+    let newAbility = ability[0].toUpperCase() + ability.slice(1, ability.length).replace(/\-/g, " ");
     let abilityURL = "https://www.serebii.net/abilitydex/" + formatForURL(ability) + ".shtml";
     return {
         ability: formatCapitalization(newAbility, " "),
@@ -132,7 +132,10 @@ function getAbility(ability) {
 
 // This function returns a new Move object with a formatted name, move level, and valid URL
 function getMove(move) {
-    let moveName = move.move.name[0].toUpperCase() + move.move.name.slice(1, move.move.name.length).replace("-", " ");
+    let moveName = move.move.name[0].toUpperCase() + move.move.name.slice(1, move.move.name.length).replace(/\-/g, " ");
+    console.log(move.move.name);
+    console.log(moveName);
+    console.log(formatCapitalization(moveName, " "))
     let moveLevel = move.version_group_details[0].level_learned_at;
     let moveURL = "https://www.serebii.net/attackdex-swsh/" + formatForURL(move.move.name) + ".shtml";
     return {

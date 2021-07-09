@@ -99,6 +99,15 @@
                     <option value="z-a">Reverse Alphabetical Order (Z-A)</option>
                     <option value="high-low-stat">Highest Base Stat Total - Lowest Base Stat Total</option>
                     <option value="low-high-stat">Lowest Base Stat Total - Highest Base Stat Total</option>
+                    <option value="short-tall">Shortest - Tallest</option>
+                    <option value="tall-short">Tallest - Shortest</option>
+                    <option value="light-heavy">Lightest - Heaviest</option>
+                    <option value="heavy-light">Heaviest - Lightest</option>
+                    <% for (let i = 0; i < statNames.length; i++) { %>
+                      <% let stat = statNames[i]; %>
+                      <option value="<%= "low-high-" + i %>"><%= `Lowest ${stat} - Highest ${stat}` %></option>
+                      <option value="<%= "high-low-" + i %>"><%= `Highest ${stat} - Lowest ${stat}` %></option>
+                    <% } %>
                   </select>
                   <button type="submit" class="btn btn-dark">Sort Team</button>
                 </form>
