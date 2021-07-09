@@ -39,7 +39,8 @@ const teamSchema = new mongoose.Schema ({
         types: [String],
         abilities: [{
             ability: String,
-            url: String
+            url: String,
+            isHidden: Boolean
         }],
         height: String,
         weight: Number,

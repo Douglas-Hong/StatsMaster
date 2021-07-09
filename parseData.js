@@ -34,7 +34,7 @@ function getPokemon(name, form, pokemonData) {
 
     let abilities = [];
     for (let i = 0; i < pokemonData.abilities.length; i++) {
-        abilities.push(getAbility(pokemonData.abilities[i].ability.name));
+        abilities.push(getAbility(pokemonData.abilities[i].ability.name, pokemonData.abilities[i].is_hidden));
     }
 
     const heightInches = pokemonData.height * 3.937; // decimeters to in
@@ -120,12 +120,13 @@ function formatForURL(text) {
 
 
 // This function returns a new Ability object with a formatted name and valid URL
-function getAbility(ability) {
+function getAbility(ability, isHidden) {
     let newAbility = ability[0].toUpperCase() + ability.slice(1, ability.length).replace(/\-/g, " ");
     let abilityURL = "https://www.serebii.net/abilitydex/" + formatForURL(ability) + ".shtml";
     return {
         ability: formatCapitalization(newAbility, " "),
-        url: abilityURL
+        url: abilityURL,
+        isHidden: isHidden
     };
 }
 
@@ -133,9 +134,6 @@ function getAbility(ability) {
 // This function returns a new Move object with a formatted name, move level, and valid URL
 function getMove(move) {
     let moveName = move.move.name[0].toUpperCase() + move.move.name.slice(1, move.move.name.length).replace(/\-/g, " ");
-    console.log(move.move.name);
-    console.log(moveName);
-    console.log(formatCapitalization(moveName, " "))
     let moveLevel = move.version_group_details[0].level_learned_at;
     let moveURL = "https://www.serebii.net/attackdex-swsh/" + formatForURL(move.move.name) + ".shtml";
     return {

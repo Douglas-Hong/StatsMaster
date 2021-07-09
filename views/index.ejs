@@ -174,19 +174,17 @@
                   <h5 class="third-column-heading">Abilities</h5>
                   <ul class="no-bullet-list">
                     <% for (let j = 0; j < pokemon.abilities.length; j++) { %>
-                      <li>
-                        <a class="link" href="<%= pokemon.abilities[j].url %>"
-                          target="_blank"><%= pokemon.abilities[j].ability %></a>
-                      </li>
+                      <% if (pokemon.abilities[j].isHidden) { %>
+                        <li><a class="link-danger link" href="<%= pokemon.abilities[j].url %>"target="_blank"><%= pokemon.abilities[j].ability %></a></li>
+                      <% } else { %>
+                        <li><a class="link" href="<%= pokemon.abilities[j].url %>"target="_blank"><%= pokemon.abilities[j].ability %></a></li>
+                      <% } %>
                     <% } %>
                   </ul>
                   <h5 class="third-column-heading">Notable Moves</h5>
                   <ul class="no-bullet-list">
                     <% for (let j = 0; j < pokemon.notableMoves.length; j++) { %>
-                      <li>
-                        <a class="link" href="<%= pokemon.notableMoves[j].url %>"
-                          target="_blank"><%= pokemon.notableMoves[j].name %></a>
-                      </li>
+                      <li><a class="link" href="<%= pokemon.notableMoves[j].url %>" target="_blank"><%= pokemon.notableMoves[j].name %></a></li>
                     <% } %>
                   </ul>
                 </div>

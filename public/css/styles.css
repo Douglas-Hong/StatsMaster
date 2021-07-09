@@ -176,6 +176,11 @@
     text-decoration: none;
 }
 
+.hidden-ability {
+    text-decoration: none;
+    color: red;
+}
+
 .load-team-section {
     font-size: 1.25rem;
     padding-top: 50px;
