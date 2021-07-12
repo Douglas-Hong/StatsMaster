@@ -90,9 +90,7 @@ function handleHTTPResponse(req, res, name, form, url) {
         } else {
             let pokemonData = "";
 
-            response.on("data", function (data) {
-                pokemonData += data;
-            });
+            response.on("data", (data) => pokemonData += data);
 
             response.on("end", function () {
                 pokemonData = JSON.parse(pokemonData);
@@ -175,7 +173,7 @@ app.post("/remove", function (req, res) {
 app.post("/save-team", function (req, res) {
     const currentUsername = req.body.username;
 
-    Team.findOne({username: currentUsername}, function(err, team) {
+    Team.findOne({username: currentUsername}, function (err, team) {
         if (err) {
             console.log(err);
         } else if (!team) {
@@ -201,7 +199,7 @@ app.post("/save-team", function (req, res) {
 app.post("/load-team", function (req, res) {
     const currentUsername = req.body.username;
 
-    Team.findOne({username: currentUsername}, function(err, team) {
+    Team.findOne({username: currentUsername}, function (err, team) {
         if (err) {
             console.log(err);
         } else if (!team) {

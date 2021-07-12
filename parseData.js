@@ -149,19 +149,9 @@ function getMove(move) {
 // the more notable the move is
 function getNotableMoves(moves, numAbilities) {
     // Sort from greatest move level to smallest move level
-    moves.sort(function (a, b) {
-        if (a.moveLevel > b.moveLevel) {
-            return -1;
-        } else {
-            return 1;
-        }
-    });
+    moves.sort((a, b) => (a.moveLevel > b.moveLevel) ? -1 : 1);
 
     // The abilities section is right above the notable moves section,
     // so the more abilities the pokemon has, the less notable moves we should show
-    if (numAbilities >= 3) {
-        return moves.slice(0, 4);
-    } else {
-        return moves.slice(0, 5);
-    }
+    return numAbilities >= 3 ? moves.slice(0, 4) : moves.slice(0, 5);
 }
